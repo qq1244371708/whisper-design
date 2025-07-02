@@ -1,0 +1,39 @@
+.sender-container {
+  display: flex;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  border-top: 1px solid $border-color;
+
+  .sender-input {
+    flex: 1;
+    padding: $spacing-md;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+    }
+  }
+
+  .sender-button {
+    padding: $spacing-md $spacing-lg;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: $primary-color;
+    }
+
+    &:disabled {
+      background-color: $disabled-color;
+      cursor: not-allowed;
+    }
+  }
+}

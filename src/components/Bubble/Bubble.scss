@@ -1,0 +1,72 @@
+.bubble {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+
+  &-avatar {
+    width: $avatar-size;
+    height: $avatar-size;
+    border-radius: 50%;
+    background-color: $border-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  &-content-wrapper {
+    flex: 1;
+    max-width: calc(100% - #{$avatar-size + $spacing-md});
+  }
+
+  &-header {
+    margin-bottom: $spacing-sm;
+    font-size: 14px;
+    color: $text-color-secondary;
+  }
+
+  &-content {
+    padding: 10px 14px;
+    border-radius: $border-radius;
+    background-color: #ffffff;
+    border: 1px solid $border-color;
+    word-wrap: break-word;
+    transition: all 0.2s ease;
+  }
+
+  &-footer {
+    margin-top: $spacing-sm;
+    font-size: 12px;
+    color: $text-color-tertiary;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  // 不同位置样式
+  &--start {
+    justify-content: flex-start;
+  }
+
+  &--end {
+    justify-content: flex-end;
+  }
+
+  // 不同发送者样式
+  &.is-user {
+    flex-direction: row-reverse;
+
+    .bubble-content {
+      min-width: 150px;
+      background-color: $primary-color;
+      color: #ffffff;
+      border-color: $primary-color;
+    }
+
+    .bubble-header,
+    .bubble-footer {
+      text-align: right;
+    }
+  }
+}
