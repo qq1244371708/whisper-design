@@ -66,6 +66,13 @@ const ChatPage: React.FC = () => {
               footer: dayjs().format("HH:mm"),
               placement: "end",
             },
+            {
+              id: uuid(),
+              content: `回答：${message}`,
+              avatar: "🤖",
+              header: "AI助手",
+              footer: dayjs().format("HH:mm"),
+            },
           ]);
         }}
       />
