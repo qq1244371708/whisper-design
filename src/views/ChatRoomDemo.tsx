@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
+import { useImmer } from "use-immer"; // Import useImmer
 import AIChatRoom from '../components/features/AIChatRoom/AIChatRoom';
 import type { IMessage } from '../types/chat';
 import './ChatRoomDemo.scss'; // Update SCSS import
 
 const ChatRoomDemo: React.FC = () => {
-  const [messages, setMessages] = useState<IMessage[]>([
+  const [messages, setMessages] = useImmer<IMessage[]>([
     {
       id: "1",
       sender: 'ai',
@@ -36,7 +37,7 @@ const ChatRoomDemo: React.FC = () => {
       content: text,
       timestamp: dayjs().valueOf(),
     };
-    setMessages((prevMessages) => [...prevMessages, newUserMessage]);
+    setMessages(draft => { draft.push(newUserMessage); }); // Updated setMessages
 
     setIsAITyping(true);
     // Simulate AI response
@@ -49,7 +50,18 @@ const ChatRoomDemo: React.FC = () => {
       content: aiResponseContent,
       timestamp: dayjs().valueOf(),
     };
-    setMessages((prevMessages) => [...prevMessages, newAIMessage]);
+    setMessages(draft => { draft.push(newAIMessage); }); // Updated setMessages
+
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+
+    setMessages(draft => {
+      const lastMessageIndex = draft.length - 1;
+      const lastMessage = draft[lastMessageIndex]
+
+      draft.splice(lastMessageIndex, 1, {...lastMessage, content:`好的，您发送了：“${text}”。 回答完毕` })
+    }); // Updated setMessages
+
+
     setIsAITyping(false);
   };
 

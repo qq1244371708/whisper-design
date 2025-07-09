@@ -9,7 +9,7 @@ interface ChatMessageProps {
   config?: IChatConfig;
 }
 
-const ChatMessage: React.FC<ChatMessageProps> = ({ message, config }) => {
+const ChatMessage: React.FC<ChatMessageProps> = React.memo(({ message, config }) => {
   const isUser = message.sender === 'user';
   const avatarSrc = isUser ? config?.userAvatar : config?.aiAvatar;
   const avatarAlt = isUser ? 'User Avatar' : 'AI Avatar';
@@ -32,6 +32,6 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, config }) => {
       )}
     </div>
   );
-};
+}); // Wrapped with React.memo
 
 export default ChatMessage;

@@ -8,7 +8,7 @@ interface AvatarProps {
   shape?: 'circle' | 'square';
 }
 
-const Avatar: React.FC<AvatarProps> = ({ src, alt, size = 'medium', shape = 'circle' }) => {
+const Avatar: React.FC<AvatarProps> = React.memo(({ src, alt, size = 'medium', shape = 'circle' }) => {
   return (
     <img
       src={src}
@@ -16,6 +16,6 @@ const Avatar: React.FC<AvatarProps> = ({ src, alt, size = 'medium', shape = 'cir
       className={`avatar avatar--${size} avatar--${shape}`}
     />
   );
-};
+}); // Wrapped with React.memo
 
 export default Avatar;
