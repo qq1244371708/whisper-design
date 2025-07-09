@@ -1,0 +1,23 @@
+@use '../../../styles/variables' as *;
+
+.chat-message {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: $spacing-sm;
+
+  &--start {
+    justify-content: flex-start;
+
+    .bubble { // Assuming MessageBubble has a class
+      margin-left: $spacing-sm;
+    }
+  }
+
+  &--end {
+    justify-content: flex-end;
+
+    .bubble { // Assuming MessageBubble has a class
+      margin-right: $spacing-sm;
+    }
+  }
+}

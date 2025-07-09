@@ -1,0 +1,12 @@
+@use '../../../styles/variables' as *;
+
+.ai-chat-room {
+  display: flex;
+  flex-direction: column;
+  height: 100%; // Occupy full height of parent
+  width: 100%; // Occupy full width of parent
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  overflow: hidden;
+  background-color: #ffffff;
+}

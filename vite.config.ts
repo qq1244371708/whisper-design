@@ -16,9 +16,9 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
-      name: "demoWhisperDesign",
+      name: "AIChatRoomComponents", // New library name
       formats: ["es", "cjs"],
-      fileName: (format) => `[name].${format === "es" ? "mjs" : "js"}`,
+      fileName: (format) => `ai-chat-room-components.${format === "es" ? "mjs" : "js"}`,
     },
     rollupOptions: {
       external: ["react", "react-dom"],
@@ -27,34 +27,12 @@ export default defineConfig({
           react: "React",
           "react-dom": "ReactDOM",
         },
-        manualChunks: (id: string) => {
-          if (id.includes("src/components/")) {
-            const component = id.split("src/components/")[1].split("/")[0];
-            return `components/${component}/index`;
-          }
-        },
-        assetFileNames: (assetInfo: { name?: string }) => {
-          if (assetInfo.name?.endsWith(".css")) {
-            const match = assetInfo.name.match(
-              /components\/([^/]+)\/index\.css/
-            );
-            if (match) {
-              const component = match[1];
-              return `components/${component}/style/index.css`;
-            }
-            return `assets/[name]-[hash][extname]`;
-          }
-          return "assets/[name]-[hash][extname]";
-        },
+        // Removed manualChunks and assetFileNames for simpler library bundling
       },
     },
     cssCodeSplit: true,
   },
   css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: '@use "@/assets/css/index.scss" as *;',
-      },
-    },
+    // Removed preprocessorOptions for simpler library bundling
   },
 });

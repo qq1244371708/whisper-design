@@ -2,7 +2,7 @@ import React from "react";
 
 export type ContentType = string | React.ReactNode;
 
-export interface BubbleProps {
+export interface MessageBubbleProps {
   id: string | number;
   /** 展示头像 */
   avatar?: React.ReactNode;
@@ -26,4 +26,6 @@ export interface BubbleProps {
   className?: string;
   /** 信息位置 */
   placement?: 'start' | 'end';
+  /** 是否正在加载 */
+  isLoading?: boolean;
 }

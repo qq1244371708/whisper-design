@@ -1,8 +1,8 @@
 import React from 'react';
-import type {BubbleProps} from './interfaces'
-import '@/components/Bubble/Bubble.scss';
+import type {MessageBubbleProps} from './interfaces'
+import './MessageBubble.scss';
 
-const Bubble: React.FC<BubbleProps> = ({
+const MessageBubble: React.FC<MessageBubbleProps> = ({
   avatar,
   content,
   footer,
@@ -31,4 +31,4 @@ const Bubble: React.FC<BubbleProps> = ({
   );
 };
 
-export default Bubble;
+export default MessageBubble;

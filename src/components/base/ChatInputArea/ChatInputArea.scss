@@ -1,3 +1,5 @@
+@use '../../../styles/variables' as *;
+
 .sender-container {
   display: flex;
   gap: $spacing-md;

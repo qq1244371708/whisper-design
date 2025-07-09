@@ -1,21 +1,29 @@
 {
-  "name": "whisper-design",
-  "description": "A demo whisper design component library",
+  "name": "ai-chat-room-components",
+  "description": "A React component library for building AI chat room UIs.",
   "keywords": [
-    "whisper",
-    "design",
-    "react",
-    "component"
+    "ai",
+    "chat",
+    "room",
+    "ui",
+    "components",
+    "react"
   ],
   "private": false,
   "version": "0.0.9",
-  "main": "dist/index.js",
-  "style": "dist/demo_whisper-design.css",
-  "module": "dist/index.mjs",
+  "main": "dist/ai-chat-room-components.cjs.js",
+  "module": "dist/ai-chat-room-components.es.mjs",
   "type": "module",
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/ai-chat-room-components.es.mjs",
+      "require": "./dist/ai-chat-room-components.cjs.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

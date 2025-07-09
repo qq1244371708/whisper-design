@@ -1,10 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
-import ChatPage from '@/pages/Chat/Chat';
+import ChatRoomDemo from './views/ChatRoomDemo'; // Updated path and component name
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<ChatPage />} />
+      <Route path="/" element={<ChatRoomDemo />} />
     </Routes>
   );
 }
