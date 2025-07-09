@@ -2,9 +2,16 @@
 
 .sender-container {
   display: flex;
-  gap: $spacing-md;
+  flex-direction: column; // Changed to column
+  gap: $spacing-sm; // Adjusted gap for column layout
   padding: $spacing-md;
   border-top: 1px solid $border-color;
+
+  .input-area-bottom { // New style for the input and button wrapper
+    display: flex;
+    gap: $spacing-md;
+    width: 100%;
+  }
 
   .sender-input {
     flex: 1;

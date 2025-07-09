@@ -1,33 +1,13 @@
-@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
 
 .button {
-  padding: $spacing-sm $spacing-md;
-  border: none;
-  border-radius: $border-radius;
-  cursor: pointer;
-  font-size: $font-size-base;
-  transition: background-color 0.3s ease;
+  @include base-button-styles;
 
   &--primary {
-    background-color: $primary-color;
-    color: white;
-
-    &:hover:not(:disabled) {
-      background-color: darken($primary-color, 10%);
-    }
+    @include primary-button-styles;
   }
 
   &--secondary {
-    background-color: $secondary-color;
-    color: white;
-
-    &:hover:not(:disabled) {
-      background-color: darken($secondary-color, 10%);
-    }
-  }
-
-  &:disabled {
-    background-color: $disabled-color;
-    cursor: not-allowed;
+    @include secondary-button-styles;
   }
 }

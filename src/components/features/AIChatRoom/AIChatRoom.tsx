@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { IMessage, IChatConfig } from '../../../types/chat';
 import ChatMessagesList from '../../composite/ChatMessagesList/ChatMessagesList';
-import ChatInputArea from '../../base/ChatInputArea/ChatInputArea'; // Using the refactored base component
+import ChatInputArea from '../../composite/ChatInputArea/ChatInputArea'; // Moved to composite
 import './AIChatRoom.scss';
 
 interface AIChatRoomProps {

@@ -2,7 +2,8 @@
 export { default as Avatar } from './components/base/Avatar/Avatar';
 export { default as Button } from './components/base/Button/Button';
 export { default as MessageBubble } from './components/base/MessageBubble/MessageBubble';
-export { default as ChatInputArea } from './components/base/ChatInputArea/ChatInputArea';
+export { default as ChatInputArea } from './components/composite/ChatInputArea/ChatInputArea';
+export { default as FileUpload } from './components/base/FileUpload/FileUpload'; // Added FileUpload
 
 // Composite Components
 export { default as ChatMessage } from './components/composite/ChatMessage/ChatMessage';

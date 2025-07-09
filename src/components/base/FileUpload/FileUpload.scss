@@ -1,0 +1,84 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *; // Add mixins import
+
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  padding: $spacing-sm;
+  border: 1px dashed $border-color;
+  border-radius: $border-radius;
+  background-color: #f8f8f8;
+  margin-bottom: $spacing-md; // Space below the upload area
+
+  .file-upload-button {
+    @include base-button-styles; // Use mixin instead of extend
+    background-color: $primary-color;
+    color: white;
+    align-self: flex-start; // Align button to start
+    padding: $spacing-xs $spacing-sm; // Smaller padding for upload button
+    font-size: $font-size-sm; // Smaller font size
+  }
+
+  .file-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+  }
+
+  .file-card {
+    display: flex;
+    align-items: center;
+    padding: $spacing-xs;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    background-color: #ffffff;
+    font-size: $font-size-sm;
+
+    .file-icon {
+      margin-right: $spacing-xs;
+      font-size: $font-size-md;
+    }
+
+    .file-preview {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: $border-radius;
+      margin-right: $spacing-xs;
+    }
+
+    .file-info {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      margin-right: $spacing-xs;
+
+      .file-name {
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 120px; // Limit name width
+      }
+
+      .file-size {
+        color: $text-color-tertiary;
+        font-size: $font-size-xs;
+      }
+    }
+
+    .file-remove-button {
+      background: none;
+      border: none;
+      color: $text-color-secondary;
+      cursor: pointer;
+      font-size: $font-size-md;
+      padding: 0 $spacing-xs;
+
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+}

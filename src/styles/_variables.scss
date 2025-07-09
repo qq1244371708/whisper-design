@@ -7,7 +7,7 @@ $spacing-xl: 32px;
 
 // Color variables
 $primary-color: #007bff;
-$secondary-color: #6c757d; // Added secondary color
+$secondary-color: #6c757d;
 $border-color: #e0e0e0;
 $disabled-color: #cccccc;
 $text-color-secondary: #666666;
@@ -20,4 +20,7 @@ $border-radius: 4px;
 $avatar-size: 48px; // Default avatar size
 
 // Font variables
-$font-size-base: 16px; // Added base font size
+$font-size-xs: 10px; // Added
+$font-size-sm: 12px; // Added
+$font-size-base: 16px;
+$font-size-md: 18px; // Added
