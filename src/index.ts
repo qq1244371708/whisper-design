@@ -8,9 +8,12 @@ export { default as FileUpload } from './components/base/FileUpload/FileUpload';
 // Composite Components
 export { default as ChatMessage } from './components/composite/ChatMessage/ChatMessage';
 export { default as ChatMessagesList } from './components/composite/ChatMessagesList/ChatMessagesList';
+export { default as ConversationItem } from './components/composite/ConversationItem/ConversationItem'; // Added
 
 // Feature Components
 export { default as AIChatRoom } from './components/features/AIChatRoom/AIChatRoom';
+export { default as ConversationList } from './components/features/ConversationList/ConversationList'; // Added
 
 // Types
 export * from './types/chat';
+export * from './types/conversation'; // Added

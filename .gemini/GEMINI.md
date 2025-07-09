@@ -30,6 +30,7 @@
 *   **目标**：定义组件间共享的数据结构，提高代码可读性和类型安全性。
 *   **操作**：
     *   在 `src/types/chat.ts` 中定义聊天消息的接口 `IMessage` 和配置接口 `IChatConfig`，以及字符串联合类型 `MessageSender`, `MessageType`, `ChatTheme`。
+    *   在 `src/types/conversation.ts` 中定义会话接口 `IConversation`。
 
     ```typescript
     // src/types/chat.ts
@@ -51,6 +52,19 @@
     export type MessageSender = 'user' | 'ai';
     export type MessageType = 'text' | 'image' | 'code';
     export type ChatTheme = 'light' | 'dark';
+    ```
+
+    ```typescript
+    // src/types/conversation.ts
+    import type { IMessage } from './chat';
+
+    export interface IConversation {
+      id: string;
+      title: string; // Display name for the conversation (e.g., "New Chat", "Chat about React")
+      messages: IMessage[]; // Array of messages in this conversation
+      lastUpdated: number; // Timestamp of the last message or update
+      isPinned?: boolean; // Optional: for pinning important conversations
+    }
     ```
 
 #### 2.3. 基础组件开发 (`src/components/base`)
@@ -83,6 +97,9 @@
     *   **`ChatInputArea`**：
         *   `props`: `onSendMessage: (message: string, files: UploadedFile[]) => void`, `isSending?: boolean`, `placeholder?: string`, `onFilesChange?: (files: UploadedFile[]) => void`.
         *   `功能`: 组合 `FileUpload`、输入框和发送按钮，提供消息输入和文件上传功能。
+    *   **`ConversationItem`**：
+        *   `props`: `conversation: IConversation`, `isActive: boolean`, `onClick: (id: string) => void`, `onDelete: (id: string) => void`, `onEditTitle: (id: string, newTitle: string) => void`.
+        *   `功能`: 显示单个会话的标题、最后一条消息片段和更新时间，并提供交互。
 
 #### 2.5. 核心功能组件开发 (`src/components/features`)
 
@@ -90,13 +107,16 @@
 *   **组件列表与 Props 规划**：
     *   **`AIChatRoom`**：
         *   `props`: `messages: IMessage[]`, `onSendMessage: (message: string) => void`, `isAITyping?: boolean`, `config?: IChatConfig`.
-        *   `功能`: 整合 `ChatMessagesList` 和 `ChatInputArea`，形成完整的 AI 聊天室界面。这是其他项目将主要使用的组件。
+        *   `功能`: 整合 `ChatMessagesList` 和 `ChatInputArea`，形成完整的 AI 聊天室界面。
+    *   **`ConversationList`**：
+        *   `props`: `conversations: IConversation[]`, `activeConversationId: string | null`, `onSelectConversation: (id: string) => void`, `onNewConversation: () => void`, `onDeleteConversation: (id: string) => void`, `onUpdateConversationTitle: (id: string, newTitle: string) => void`, `onSearch: (query: string) => void`.
+        *   `功能`: 管理和显示会话列表，包括新增、切换、搜索等。
 
 #### 2.6. 示例页面与本地调试 (`src/views`)
 
 *   **目标**：提供一个可运行的示例，用于组件的本地开发、调试和功能演示。
 *   **操作**：
-    *   在 `src/views/ChatRoomDemo.tsx` 中，导入并使用 `AIChatRoom` 组件。
+    *   在 `src/views/ChatRoomDemo.tsx` 中，导入并使用 `AIChatRoom` 和 `ConversationList` 组件。
     *   模拟消息数据和发送逻辑，展示 `AIChatRoom` 的完整功能。
     *   此页面仅用于开发调试，不会打包到最终的组件库中。
 

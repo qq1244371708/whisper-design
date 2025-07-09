@@ -1,0 +1,45 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *; // Add mixins import
+
+.conversation-list-container {
+  display: flex;
+  flex-direction: column;
+  width: 300px; // Fixed width for sidebar
+  border-right: 1px solid $border-color;
+  background-color: #f0f2f5; // Light background for sidebar
+  padding: $spacing-md;
+  gap: $spacing-md;
+
+  .conversation-list__header {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+
+    .conversation-list__search-input {
+      padding: $spacing-sm;
+      border: 1px solid $border-color;
+      border-radius: $border-radius;
+      font-size: $font-size-base;
+    }
+
+    .conversation-list__new-btn {
+      @include base-button-styles; // Use mixin
+      @include primary-button-styles; // Use mixin
+      font-size: $font-size-base;
+      padding: $spacing-sm $spacing-md;
+    }
+  }
+
+  .conversation-list__items {
+    flex-grow: 1;
+    overflow-y: auto;
+    // No gap here, as ConversationItem has bottom border
+  }
+
+  .conversation-list__empty {
+    text-align: center;
+    color: $text-color-tertiary;
+    padding: $spacing-md;
+  }
+}

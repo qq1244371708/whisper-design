@@ -1,0 +1,70 @@
+@use '../../../styles/variables' as *;
+@use "sass:color"; // Added
+
+.conversation-item {
+  display: flex;
+  align-items: center;
+  padding: $spacing-sm $spacing-md;
+  border-bottom: 1px solid $border-color;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: color.adjust($border-color, $lightness: 5%); // Changed
+  }
+
+  &--active {
+    background-color: $primary-color;
+    color: white;
+
+    .conversation-item__snippet,
+    .conversation-item__time,
+    .conversation-item__delete-btn {
+      color: color.adjust(white, $lightness: 20%); // Changed
+    }
+  }
+
+  &__info {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+
+  &__title {
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__snippet {
+    font-size: $font-size-sm;
+    color: $text-color-secondary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: $spacing-md;
+  }
+
+  &__time {
+    font-size: $font-size-xs;
+    color: $text-color-tertiary;
+  }
+
+  &__delete-btn {
+    background: none;
+    border: none;
+    color: $text-color-secondary;
+    cursor: pointer;
+    font-size: $font-size-md;
+    margin-top: $spacing-xs;
+    &:hover {
+      color: red;
+    }
+  }
+}
