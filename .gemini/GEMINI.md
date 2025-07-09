@@ -29,7 +29,7 @@
 
 *   **目标**：定义组件间共享的数据结构，提高代码可读性和类型安全性。
 *   **操作**：
-    *   在 `src/types/chat.ts` 中定义聊天消息的接口 `IMessage` 和配置接口 `IChatConfig`。
+    *   在 `src/types/chat.ts` 中定义聊天消息的接口 `IMessage` 和配置接口 `IChatConfig`，以及字符串联合类型 `MessageSender`, `MessageType`, `ChatTheme`。
 
     ```typescript
     // src/types/chat.ts
@@ -38,14 +38,19 @@
       sender: 'user' | 'ai';
       content: string; // 可以是文本、图片URL等
       timestamp: number; // 时间戳
-      type?: 'text' | 'file' | 'markdown'; // 消息类型
+      type?: 'text' | 'image' | 'code'; // 消息类型
       isLoading?: boolean; // AI消息是否正在生成中
     }
 
     export interface IChatConfig {
+      theme?: 'light' | 'dark';
       userAvatar?: string;
       aiAvatar?: string;
     }
+
+    export type MessageSender = 'user' | 'ai';
+    export type MessageType = 'text' | 'image' | 'code';
+    export type ChatTheme = 'light' | 'dark';
     ```
 
 #### 2.3. 基础组件开发 (`src/components/base`)
@@ -56,14 +61,14 @@
         *   `props`: `src: string`, `alt: string`, `size?: 'small' | 'medium' | 'large'`, `shape?: 'circle' | 'square'`.
         *   `功能`: 显示用户或 AI 的头像。
     *   **`MessageBubble`**：
-        *   `props`: `content: string`, `type?: 'text' | 'file' | 'markdown'`, `isLoading?: boolean`, `header?:React.ReactNode | (content: ContentType, info: { key?: string | number }) => React.ReactNode`, `footer?:React.ReactNode | (content: ContentType, info: { key?: string | number }) => React.ReactNode`, `placement: 'start' | 'end'`,
+        *   `props`: `id: string | number`, `content: ContentType`, `placement?: 'start' | 'end'`, `isLoading?: boolean`.
         *   `功能`: 纯粹的消息内容展示，不包含发送者信息或布局。
-    *   **`InputBox`**：
-        *   `props`: `value: string`, `onChange: (value: string) => void`, `placeholder?: string`, `disabled?: boolean`, `onEnter?: () => void`.
-        *   `功能`: 聊天输入框。
     *   **`Button`**：
-        *   `props`: `onClick: () => void`, `children: React.ReactNode`, `variant?: 'primary' | 'secondary'`, `disabled?: boolean`, `loading?: boolean`.
+        *   `props`: `onClick: () => void`, `children: React.ReactNode`, `variant?: 'primary' | 'secondary'`, `disabled?: boolean`, `type?: 'button' | 'submit' | 'reset'`.
         *   `功能`: 通用按钮。
+    *   **`FileUpload`**：
+        *   `props`: `onFilesChange: (files: UploadedFile[]) => void`, `acceptedFileTypes?: string`, `maxFiles?: number`, `value?: UploadedFile[]`, `disabled?: boolean`.
+        *   `功能`: 文件上传功能，支持多文件、图片/PDF/XLSX格式，并展示为卡片列表。
 
 #### 2.4. 复合组件开发 (`src/components/composite`)
 
@@ -76,8 +81,8 @@
         *   `props`: `messages: IMessage[]`, `config?: IChatConfig`, `isLoadingMore?: boolean`.
         *   `功能`: 渲染 `ChatMessage` 列表，处理滚动和消息加载。
     *   **`ChatInputArea`**：
-        *   `props`: `onSendMessage: (message: string) => void`, `isSending?: boolean`, `placeholder?: string`.
-        *   `功能`: 组合 `InputBox` 和 `Button`，提供消息输入和发送功能。
+        *   `props`: `onSendMessage: (message: string, files: UploadedFile[]) => void`, `isSending?: boolean`, `placeholder?: string`, `onFilesChange?: (files: UploadedFile[]) => void`.
+        *   `功能`: 组合 `FileUpload`、输入框和发送按钮，提供消息输入和文件上传功能。
 
 #### 2.5. 核心功能组件开发 (`src/components/features`)
 
@@ -91,7 +96,7 @@
 
 *   **目标**：提供一个可运行的示例，用于组件的本地开发、调试和功能演示。
 *   **操作**：
-    *   在 `src/views/Chat/Chat.tsx` 中，导入并使用 `AIChatRoom` 组件。
+    *   在 `src/views/ChatRoomDemo.tsx` 中，导入并使用 `AIChatRoom` 组件。
     *   模拟消息数据和发送逻辑，展示 `AIChatRoom` 的完整功能。
     *   此页面仅用于开发调试，不会打包到最终的组件库中。
 
@@ -99,9 +104,8 @@
 
 *   **目标**：配置 Vite，将组件库打包成可供其他项目导入和使用的格式，并确保所有组件都能被灵活引用。
 *   **操作**：
-    *   **创建主导出文件**：在 `src` 目录下创建一个 `index.ts` 文件（或 `src/components/index.ts`），作为组件库的统一导出入口。
-        *   在这个文件中，`export * from` 所有希望对外暴露的基础组件、复合组件和核心功能组件。
-    *   **修改 `vite.config.ts`**：将 `build.lib.entry` 指向这个统一的 `index.ts` 文件。
+    *   **创建主导出文件**：在 `src` 目录下创建一个 `index.ts` 文件，作为组件库的统一导出入口。`export * from` 所有希望对外暴露的基础组件、复合组件和核心功能组件。
+    *   **修改 `vite.config.ts`**：将 `build.lib.entry` 指向这个统一的 `index.ts` 文件，并配置库名称和文件名。
     *   **`package.json` 配置**：
         *   `main`, `module`, `types` 字段指向打包后的主入口文件。
         *   **推荐使用 `exports` 字段**：为了更好地支持子路径导入和模块化，在 `package.json` 中配置 `exports` 字段，允许消费者按需导入各个组件。
@@ -118,7 +122,7 @@
 
 *   **目标**：确保组件的质量和稳定性。
 *   **操作**：
-    *   引入测试框架（如 Vitest + React Testing Library）。
+    *   设置测试框架（如 Vitest + React Testing Library）。
     *   为关键的基础组件和复合组件编写单元测试和集成测试。
 
 #### 2.10. 发布到 NPM
