@@ -10,7 +10,7 @@
     "react"
   ],
   "private": false,
-  "version": "0.0.9",
+  "version": "0.1.0",
   "engines": {
     "node": ">=18.0.0",
     "react": "^19.0.0"
