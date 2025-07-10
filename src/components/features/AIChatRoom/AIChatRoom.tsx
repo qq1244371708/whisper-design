@@ -29,13 +29,13 @@ const AIChatRoom: React.FC<AIChatRoomProps> = ({
   };
 
   return (
-    <div className="chat-container"> {/* Changed class name */}
+    <div className="chat-container">
+      {' '}
+      {/* Changed class name */}
       <div className="chat-header">
-        <div className="chat-title">
-          {conversationTitle || '新对话'}
-        </div>
+        <div className="chat-title">{conversationTitle || '新对话'}</div>
       </div>
-      <ChatMessagesList messages={messages} config={config} />
+      <ChatMessagesList messages={messages} {...(config && { config })} />
       <ChatInputArea
         onSendMessage={handleSendMessage}
         isSending={isSending || isAITyping}

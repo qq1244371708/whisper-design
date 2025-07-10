@@ -23,24 +23,22 @@ const ChatMessage: React.FC<ChatMessageProps> = React.memo(({ message, config })
   return (
     <div className={`message-row ${isUser ? 'user' : ''}`}>
       <Avatar
-        src={avatarSrc}
+        {...(avatarSrc && { src: avatarSrc })}
         alt={avatarAlt}
         size="medium"
         gradient={avatarGradient}
       >
         {/* Render icon if no src provided */}
-        {!avatarSrc && (
-          <i className={`fas fa-${isUser ? 'user' : 'robot'}`}></i>
-        )}
+        {!avatarSrc && <i className={`fas fa-${isUser ? 'user' : 'robot'}`}></i>}
       </Avatar>
       <div className="message-content">
         <MessageBubble
           id={message.id}
           content={message.content}
           sender={message.sender}
-          type={message.type}
-          isLoading={message.isLoading}
-          files={message.files}
+          type={message.type || 'text'}
+          {...(message.isLoading !== undefined && { isLoading: message.isLoading })}
+          {...(message.files && { files: message.files })}
         />
         <div className="message-time">{formatTime(message.timestamp)}</div>
       </div>

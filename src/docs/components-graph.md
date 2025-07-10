@@ -1,6 +1,7 @@
 ### 预览组件流程图
+
 ```js
-// vscode 安装【Markdown Preview Mermaid Support】插件 
+// vscode 安装【Markdown Preview Mermaid Support】插件
 // or
 // 浏览器打开 https://mermaid.live/
 ```
@@ -39,7 +40,7 @@ end
      ConversationList --> ConversationItem[ConversationItem:conversation, isActive, onClick]
 
      ChatMessagesList --> ChatMessage[ChatMessage:message,config]
- 
+
     ChatMessage --> Avatar[Avatar:src, alt, size, shape]
     ChatMessage --> MessageBubble[MessageBubble:content, placement, isLoading]
 

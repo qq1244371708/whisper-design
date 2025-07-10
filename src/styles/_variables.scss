@@ -6,16 +6,16 @@ $spacing-lg: 24px;
 $spacing-xl: 32px;
 
 // Color variables (Tech-sense palette)
-$primary: #4D8EFF;
+$primary: #4d8eff;
 $primary-light: #6aa1ff;
-$secondary: #00F0FF;
-$dark: #0A1126;
-$light: #F5F8FF;
-$success: #28D193;
-$error: #FF4D7A;
-$warning: #FFC84D;
-$user-bubble: #4D8EFF;
-$ai-bubble: #2A334D;
+$secondary: #00f0ff;
+$dark: #0a1126;
+$light: #f5f8ff;
+$success: #28d193;
+$error: #ff4d7a;
+$warning: #ffc84d;
+$user-bubble: #4d8eff;
+$ai-bubble: #2a334d;
 $input-bg: rgba(20, 30, 60, 0.7);
 
 // Text color variables
@@ -27,8 +27,8 @@ $disabled-color: #cccccc;
 $border-color: #e0e0e0;
 
 // Gradient effects
-$gradient-primary: linear-gradient(135deg, #4D8EFF 0%, #6A11CB 100%);
-$gradient-secondary: linear-gradient(135deg, #00F0FF 0%, #00C2FF 100%);
+$gradient-primary: linear-gradient(135deg, #4d8eff 0%, #6a11cb 100%);
+$gradient-secondary: linear-gradient(135deg, #00f0ff 0%, #00c2ff 100%);
 
 // Border radius system
 $radius-sm: 6px;
@@ -47,7 +47,11 @@ $transition-fast: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 $transition-medium: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 
 // Font system
-$font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+$font-family:
+  'Segoe UI',
+  system-ui,
+  -apple-system,
+  sans-serif;
 
 // Font sizes (keeping existing for now, will adjust as needed)
 $font-size-xs: 10px;

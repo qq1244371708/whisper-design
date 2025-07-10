@@ -1,4 +1,4 @@
-import { UploadedFile } from '../components/base/FileUpload/interfaces';
+import type { UploadedFile } from '../components/base/FileUpload/interfaces';
 
 export interface IMessage {
   id: string;

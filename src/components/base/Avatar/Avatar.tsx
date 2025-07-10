@@ -10,22 +10,24 @@ interface AvatarProps {
   children?: React.ReactNode; // Allow children for icon avatars
 }
 
-const Avatar: React.FC<AvatarProps> = React.memo(({ src, alt, size = 'medium', shape = 'circle', gradient, children }) => {
-  const gradientClass = gradient ? `avatar--${gradient}-gradient` : '';
+const Avatar: React.FC<AvatarProps> = React.memo(
+  ({ src, alt, size = 'medium', shape = 'circle', gradient, children }) => {
+    const gradientClass = gradient ? `avatar--${gradient}-gradient` : '';
 
-  return (
-    <div
-      className={`avatar avatar--${size} avatar--${shape} ${gradientClass}`}
-      role="img"
-      aria-label={alt}
-    >
-      {src ? (
-        <img src={src} alt={alt} />
-      ) : (
-        children // Render children (e.g., an icon) if no src is provided
-      )}
-    </div>
-  );
-});
+    return (
+      <div
+        className={`avatar avatar--${size} avatar--${shape} ${gradientClass}`}
+        role="img"
+        aria-label={alt}
+      >
+        {src ? (
+          <img src={src} alt={alt} />
+        ) : (
+          children // Render children (e.g., an icon) if no src is provided
+        )}
+      </div>
+    );
+  }
+);
 
 export default Avatar;

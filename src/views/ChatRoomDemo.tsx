@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { v4 as uuid } from "uuid";
-import dayjs from "dayjs";
-import { useImmer } from "use-immer";
+import React, { useState, useEffect, useCallback } from 'react';
+import { v4 as uuid } from 'uuid';
+import dayjs from 'dayjs';
+import { useImmer } from 'use-immer';
 import AIChatRoom from '../components/features/AIChatRoom/AIChatRoom';
 import ConversationList from '../components/features/ConversationList/ConversationList';
 import type { IMessage } from '../types/chat';
@@ -15,17 +15,7 @@ const ChatRoomDemo: React.FC = () => {
   const [isAITyping, setIsAITyping] = useState(false);
 
   // Initialize with a default conversation if none exist
-  useEffect(() => {
-    if (conversations.length === 0) {
-      handleNewConversation();
-    }
-  }, []);
-
-  const activeConversation = activeConversationId
-    ? conversations.find(conv => conv.id === activeConversationId)
-    : null;
-
-  const handleNewConversation = () => {
+  const handleNewConversation = useCallback(() => {
     const newConvId = uuid();
     const newConversation: IConversation = {
       id: newConvId,
@@ -37,23 +27,25 @@ const ChatRoomDemo: React.FC = () => {
       draft.unshift(newConversation);
     });
     setActiveConversationId(newConvId);
-  };
+  }, [conversations.length, setConversations]);
+
+  useEffect(() => {
+    if (conversations.length === 0) {
+      handleNewConversation();
+    }
+  }, [conversations.length, handleNewConversation]);
+
+  const activeConversation = activeConversationId
+    ? conversations.find(conv => conv.id === activeConversationId)
+    : null;
+
+
 
   const handleSelectConversation = (id: string) => {
     setActiveConversationId(id);
   };
 
-  const handleDeleteConversation = (id: string) => {
-    setConversations(draft => {
-      const index = draft.findIndex(conv => conv.id === id);
-      if (index !== -1) {
-        draft.splice(index, 1);
-      }
-    });
-    if (activeConversationId === id) {
-      setActiveConversationId(conversations[0]?.id || null);
-    }
-  };
+
 
   const handleSendMessage = async (text: string, files: UploadedFile[]) => {
     if (!activeConversationId) return;
@@ -63,7 +55,7 @@ const ChatRoomDemo: React.FC = () => {
       sender: 'user',
       content: text,
       timestamp: dayjs().valueOf(),
-      files: files.length > 0 ? files : undefined,
+      ...(files.length > 0 && { files }),
     };
 
     setConversations(draft => {
@@ -75,7 +67,7 @@ const ChatRoomDemo: React.FC = () => {
     });
 
     setIsAITyping(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
     let aiResponseContent = `好的，您发送了：“${text}”。`;
     if (files.length > 0) {
@@ -102,30 +94,46 @@ const ChatRoomDemo: React.FC = () => {
   };
 
   return (
-    <div className="container"> {/* Applied container class */}
+    <div className="container">
+      {' '}
+      {/* Applied container class */}
       <ConversationList
         conversations={conversations}
         activeConversationId={activeConversationId}
         onSelectConversation={handleSelectConversation}
         onNewConversation={handleNewConversation}
-        onDeleteConversation={handleDeleteConversation}
       />
       {activeConversation ? (
         <AIChatRoom
           messages={activeConversation.messages}
           onSendMessage={handleSendMessage}
           isAITyping={isAITyping}
-          conversationTitle={activeConversation.messages.length > 0
-            ? activeConversation.messages[0].content.substring(0, 30) + (activeConversation.messages[0].content.length > 30 ? '...' : '')
-            : activeConversation.title}
+          conversationTitle={
+            activeConversation.messages.length > 0 && activeConversation.messages[0]
+              ? activeConversation.messages[0].content.substring(0, 30) +
+                (activeConversation.messages[0].content.length > 30 ? '...' : '')
+              : activeConversation.title
+          }
           config={{
-            userAvatar: "https://api.dicebear.com/7.x/initials/svg?seed=User",
-            aiAvatar: "https://api.dicebear.com/7.x/bottts/svg?seed=AI",
+            userAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=User',
+            aiAvatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=AI',
             theme: 'light',
           }}
         />
       ) : (
-        <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center", color: "#888", background: "rgba(15, 23, 42, 0.8)", borderRadius: "16px", border: "1px solid rgba(77, 142, 255, 0.15)", boxShadow: "0 4px 12px rgba(77, 142, 255, 0.2)" }}>
+        <div
+          style={{
+            flex: 1,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: '#888',
+            background: 'rgba(15, 23, 42, 0.8)',
+            borderRadius: '16px',
+            border: '1px solid rgba(77, 142, 255, 0.15)',
+            boxShadow: '0 4px 12px rgba(77, 142, 255, 0.2)',
+          }}
+        >
           Select a conversation or start a new one.
         </div>
       )}

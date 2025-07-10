@@ -8,6 +8,7 @@ interface ButtonProps {
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
   isCircle?: boolean; // New prop for circular buttons
+  className?: string; // Additional CSS classes
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -17,16 +18,13 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   type = 'button',
   isCircle = false,
+  className = '',
 }) => {
   const buttonClass = isCircle ? 'button--circle' : `button--${variant}`;
+  const fullClassName = `button ${buttonClass} ${className}`.trim();
 
   return (
-    <button
-      type={type}
-      className={`button ${buttonClass}`}
-      onClick={onClick}
-      disabled={disabled}
-    >
+    <button type={type} className={fullClassName} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );

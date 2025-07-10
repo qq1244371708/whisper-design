@@ -1,7 +1,8 @@
 import React from 'react';
 import type { IConversation } from '../../../types/conversation';
+import { formatTime, truncateText } from '../../../utils/format';
+import { UI } from '../../../utils/constants';
 import './ConversationItem.scss';
-import dayjs from 'dayjs';
 
 interface ConversationItemProps {
   conversation: IConversation;
@@ -17,15 +18,18 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
   // onDelete, // Removed
 }) => {
   // Use first message as title, fallback to original title
-  const conversationTitle = conversation.messages.length > 0
-    ? conversation.messages[0].content.substring(0, 30) + (conversation.messages[0].content.length > 30 ? '...' : '')
-    : conversation.title;
+  const conversationTitle =
+    conversation.messages.length > 0 && conversation.messages[0]
+      ? truncateText(conversation.messages[0].content, UI.CONVERSATION_TITLE_MAX_LENGTH)
+      : conversation.title;
 
-  const lastMessageSnippet = conversation.messages.length > 0
-    ? conversation.messages[conversation.messages.length - 1].content.substring(0, 50) + '...'
-    : 'No messages yet.';
+  const lastMessage = conversation.messages[conversation.messages.length - 1];
+  const lastMessageSnippet =
+    conversation.messages.length > 0 && lastMessage
+      ? truncateText(lastMessage.content, UI.MESSAGE_PREVIEW_MAX_LENGTH)
+      : 'No messages yet.';
 
-  const formattedLastUpdated = dayjs(conversation.lastUpdated).format('HH:mm');
+  const formattedLastUpdated = formatTime(conversation.lastUpdated);
 
   return (
     <div
@@ -37,9 +41,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
           <span>{conversationTitle}</span>
           <span className="conversation-time">{formattedLastUpdated}</span>
         </div>
-        <div className="conversation-preview">
-          {lastMessageSnippet}
-        </div>
+        <div className="conversation-preview">{lastMessageSnippet}</div>
       </div>
       {/* Conditionally render badge if needed, e.g., for unread messages */}
       {/* <div className="conversation-badge"></div> */}

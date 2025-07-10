@@ -1,6 +1,6 @@
-import React from "react";
-import { MessageSender, MessageType } from "../../../types/chat";
-import { UploadedFile } from "../FileUpload/interfaces";
+import React from 'react';
+import type { MessageSender, MessageType } from '../../../types/chat';
+import type { UploadedFile } from '../FileUpload/interfaces';
 
 export type ContentType = string | React.ReactNode;
 

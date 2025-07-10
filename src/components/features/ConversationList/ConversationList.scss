@@ -20,8 +20,25 @@
       font-weight: 600;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: $spacing-sm; /* From ui.html */
       color: $light;
+
+      .new-conversation-btn {
+        width: 32px;
+        height: 32px;
+        background: rgba(77, 142, 255, 0.15);
+        color: $primary;
+        border: 1px solid rgba(77, 142, 255, 0.3);
+        transition: $transition-fast;
+
+        &:hover {
+          background: $primary;
+          color: $light;
+          transform: translateY(-1px);
+          box-shadow: $glow;
+        }
+      }
     }
 
     .search-container {
