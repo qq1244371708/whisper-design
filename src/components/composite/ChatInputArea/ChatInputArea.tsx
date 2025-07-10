@@ -39,6 +39,67 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = ({ onSendMessage, isSending 
     }
   };
 
+  const getFileIcon = (fileName: string) => {
+    const extension = fileName.split('.').pop()?.toLowerCase();
+    switch (extension) {
+      case 'pdf':
+        return 'fas fa-file-pdf';
+      case 'xlsx':
+      case 'xls':
+        return 'fas fa-file-excel';
+      case 'docx':
+      case 'doc':
+        return 'fas fa-file-word';
+      case 'pptx':
+      case 'ppt':
+        return 'fas fa-file-powerpoint';
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+      case 'gif':
+      case 'bmp':
+      case 'svg':
+      case 'webp':
+        return 'fas fa-file-image';
+      case 'mp4':
+      case 'avi':
+      case 'mov':
+      case 'wmv':
+      case 'flv':
+        return 'fas fa-file-video';
+      case 'mp3':
+      case 'wav':
+      case 'flac':
+      case 'aac':
+        return 'fas fa-file-audio';
+      case 'zip':
+      case 'rar':
+      case '7z':
+      case 'tar':
+      case 'gz':
+        return 'fas fa-file-archive';
+      case 'txt':
+      case 'md':
+        return 'fas fa-file-alt';
+      case 'js':
+      case 'ts':
+      case 'jsx':
+      case 'tsx':
+      case 'html':
+      case 'css':
+      case 'scss':
+      case 'json':
+      case 'xml':
+      case 'py':
+      case 'java':
+      case 'cpp':
+      case 'c':
+        return 'fas fa-file-code';
+      default:
+        return 'fas fa-file';
+    }
+  };
+
   return (
     <form className="chat-input-area" onSubmit={handleSubmit}>
       <div className="input-container">
@@ -68,7 +129,7 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = ({ onSendMessage, isSending 
           <div className="file-list"> {/* Display selected files here */}
             {files.map(file => (
               <div key={file.id} className="file-card">
-                <span className="file-icon"><i className="fas fa-file"></i></span> {/* Generic file icon */}
+                <span className="file-icon"><i className={getFileIcon(file.name)}></i></span>
                 <div className="file-info">
                   <span className="file-name">{file.name}</span>
                   <span className="file-size">{(file.size / 1024).toFixed(2)} KB</span>

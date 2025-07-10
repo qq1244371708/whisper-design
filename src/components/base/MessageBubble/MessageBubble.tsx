@@ -26,11 +26,51 @@ const MessageBubble: React.FC<MessageBubbleProps> = React.memo(({ id, content, s
       case 'docx':
       case 'doc':
         return 'fas fa-file-word';
+      case 'pptx':
+      case 'ppt':
+        return 'fas fa-file-powerpoint';
       case 'jpg':
       case 'jpeg':
       case 'png':
       case 'gif':
+      case 'bmp':
+      case 'svg':
+      case 'webp':
         return 'fas fa-file-image';
+      case 'mp4':
+      case 'avi':
+      case 'mov':
+      case 'wmv':
+      case 'flv':
+        return 'fas fa-file-video';
+      case 'mp3':
+      case 'wav':
+      case 'flac':
+      case 'aac':
+        return 'fas fa-file-audio';
+      case 'zip':
+      case 'rar':
+      case '7z':
+      case 'tar':
+      case 'gz':
+        return 'fas fa-file-archive';
+      case 'txt':
+      case 'md':
+        return 'fas fa-file-alt';
+      case 'js':
+      case 'ts':
+      case 'jsx':
+      case 'tsx':
+      case 'html':
+      case 'css':
+      case 'scss':
+      case 'json':
+      case 'xml':
+      case 'py':
+      case 'java':
+      case 'cpp':
+      case 'c':
+        return 'fas fa-file-code';
       default:
         return 'fas fa-file';
     }

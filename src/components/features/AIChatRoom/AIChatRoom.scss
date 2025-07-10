@@ -16,38 +16,13 @@
     border-bottom: 1px solid rgba(77, 142, 255, 0.1); /* From ui.html */
     display: flex;
     align-items: center;
-    gap: $spacing-md; /* From ui.html */
+    justify-content: center;
     color: $light;
 
-    .chat-avatar {
-      /* Avatar component handles its own styling */
+    .chat-title {
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
     }
-
-    .chat-info {
-      flex: 1;
-
-      .chat-title {
-        font-size: 18px;
-        font-weight: 600;
-      }
-
-      .chat-status {
-        font-size: 13px;
-        color: $secondary; /* From ui.html */
-        display: flex;
-        align-items: center;
-        gap: $spacing-xs; /* From ui.html */
-
-        .status-indicator {
-          width: 8px;
-          height: 8px;
-          background: $success; /* From ui.html */
-          border-radius: 50%;
-          box-shadow: 0 0 8px $success; /* From ui.html */
-        }
-      }
-    }
-
-
   }
 }

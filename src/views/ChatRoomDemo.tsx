@@ -115,6 +115,9 @@ const ChatRoomDemo: React.FC = () => {
           messages={activeConversation.messages}
           onSendMessage={handleSendMessage}
           isAITyping={isAITyping}
+          conversationTitle={activeConversation.messages.length > 0
+            ? activeConversation.messages[0].content.substring(0, 30) + (activeConversation.messages[0].content.length > 30 ? '...' : '')
+            : activeConversation.title}
           config={{
             userAvatar: "https://api.dicebear.com/7.x/initials/svg?seed=User",
             aiAvatar: "https://api.dicebear.com/7.x/bottts/svg?seed=AI",

@@ -1,6 +1,5 @@
 import React from 'react';
 import type { IConversation } from '../../../types/conversation';
-import Avatar from '../../base/Avatar/Avatar';
 import './ConversationItem.scss';
 import dayjs from 'dayjs';
 
@@ -17,6 +16,11 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
   onClick,
   // onDelete, // Removed
 }) => {
+  // Use first message as title, fallback to original title
+  const conversationTitle = conversation.messages.length > 0
+    ? conversation.messages[0].content.substring(0, 30) + (conversation.messages[0].content.length > 30 ? '...' : '')
+    : conversation.title;
+
   const lastMessageSnippet = conversation.messages.length > 0
     ? conversation.messages[conversation.messages.length - 1].content.substring(0, 50) + '...'
     : 'No messages yet.';
@@ -28,12 +32,9 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
       className={`conversation-item ${isActive ? 'active' : ''}`}
       onClick={() => onClick(conversation.id)}
     >
-      <Avatar size="medium" gradient="primary">
-        <i className="fas fa-robot"></i>
-      </Avatar>
       <div className="conversation-info">
         <div className="conversation-title">
-          <span>{conversation.title}</span>
+          <span>{conversationTitle}</span>
           <span className="conversation-time">{formattedLastUpdated}</span>
         </div>
         <div className="conversation-preview">

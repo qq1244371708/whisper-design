@@ -7,7 +7,6 @@
   cursor: pointer;
   transition: $transition-fast; /* From ui.html */
   display: flex;
-  gap: $spacing-md; /* From ui.html */
   position: relative;
   color: $light; /* Ensure text is visible */
 
@@ -18,10 +17,6 @@
   &.active {
     background: rgba(77, 142, 255, 0.15); /* From ui.html */
     border-left: 3px solid $primary; /* From ui.html */
-  }
-
-  .conversation-avatar {
-    /* Avatar component handles its own styling */
   }
 
   .conversation-info {

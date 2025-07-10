@@ -3,7 +3,6 @@ import type { IMessage, IChatConfig } from '../../../types/chat';
 import type { UploadedFile } from '../../base/FileUpload/interfaces';
 import ChatMessagesList from '../../composite/ChatMessagesList/ChatMessagesList';
 import ChatInputArea from '../../composite/ChatInputArea/ChatInputArea';
-import Avatar from '../../base/Avatar/Avatar'; // Import Avatar
 import './AIChatRoom.scss';
 
 interface AIChatRoomProps {
@@ -11,6 +10,7 @@ interface AIChatRoomProps {
   onSendMessage: (message: string, files: UploadedFile[]) => void;
   isAITyping?: boolean;
   config?: IChatConfig;
+  conversationTitle?: string;
 }
 
 const AIChatRoom: React.FC<AIChatRoomProps> = ({
@@ -18,6 +18,7 @@ const AIChatRoom: React.FC<AIChatRoomProps> = ({
   onSendMessage,
   isAITyping = false,
   config,
+  conversationTitle,
 }) => {
   const [isSending, setIsSending] = useState(false);
 
@@ -29,18 +30,10 @@ const AIChatRoom: React.FC<AIChatRoomProps> = ({
 
   return (
     <div className="chat-container"> {/* Changed class name */}
-      <div className="chat-header"> {/* New header section */}
-        <Avatar size="large" gradient="secondary">
-          <i className="fas fa-robot"></i>
-        </Avatar>
-        <div className="chat-info">
-          <div className="chat-title">AI助手</div>
-          <div className="chat-status">
-            <div className="status-indicator"></div>
-            <span>{isAITyping ? '正在输入...' : '在线 · 响应迅速'}</span>
-          </div>
+      <div className="chat-header">
+        <div className="chat-title">
+          {conversationTitle || '新对话'}
         </div>
-
       </div>
       <ChatMessagesList messages={messages} config={config} />
       <ChatInputArea
