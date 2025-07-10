@@ -1,3 +1,5 @@
+@use '../../../styles/variables' as *;
+
 .prompt-set {
   display: flex;
   flex-direction: column;
@@ -14,13 +16,13 @@
     h1 {
       font-size: 2.5rem;
       font-weight: 600;
-      color: $color-primary;
+      color: $primary;
       margin-bottom: 0.5rem;
     }
 
     p {
       font-size: 1.1rem;
-      color: $color-text-secondary;
+      color: $text-color-tertiary;
     }
   }
 
@@ -32,29 +34,29 @@
     max-width: 800px;
 
     .prompt-card {
-      background-color: $color-bg-secondary;
-      border-radius: 12px;
+      background-color: $input-bg;
+      border-radius: $radius-md;
       padding: 1.5rem;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      border: 1px solid $color-border;
+      transition: $transition-fast;
+      border: 1px solid $text-color-tertiary;
       text-align: left;
 
       &:hover {
         transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba($color-primary, 0.1);
+        box-shadow: 0 8px 20px rgba($primary, 0.1);
       }
 
       .prompt-title {
         font-size: 1.1rem;
         font-weight: 600;
-        color: $color-text-primary;
+        color: $primary;
         margin-bottom: 0.5rem;
       }
 
       .prompt-content {
         font-size: 0.9rem;
-        color: $color-text-secondary;
+        color: $text-color-tertiary;
         line-height: 1.5;
       }
     }
