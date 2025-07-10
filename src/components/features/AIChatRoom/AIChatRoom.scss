@@ -1,12 +1,60 @@
 @use '../../../styles/variables' as *;
 
-.ai-chat-room {
+.chat-container {
   display: flex;
   flex-direction: column;
-  height: 100%; // Occupy full height of parent
-  width: 100%; // Occupy full width of parent
-  border: 1px solid $border-color;
-  border-radius: $border-radius;
+  background: rgba(15, 23, 42, 0.8); /* From ui.html */
+  border-radius: $radius-lg; /* From ui.html */
+  border: 1px solid rgba(77, 142, 255, 0.15); /* From ui.html */
+  backdrop-filter: blur(10px); /* From ui.html */
+  box-shadow: $shadow-md; /* From ui.html */
   overflow: hidden;
-  background-color: #ffffff;
+  height: 100%; /* Ensure it takes full height */
+
+  .chat-header {
+    padding: $spacing-md $spacing-lg; /* From ui.html */
+    border-bottom: 1px solid rgba(77, 142, 255, 0.1); /* From ui.html */
+    display: flex;
+    align-items: center;
+    gap: $spacing-md; /* From ui.html */
+    color: $light;
+
+    .chat-avatar {
+      /* Avatar component handles its own styling */
+    }
+
+    .chat-info {
+      flex: 1;
+
+      .chat-title {
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .chat-status {
+        font-size: 13px;
+        color: $secondary; /* From ui.html */
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs; /* From ui.html */
+
+        .status-indicator {
+          width: 8px;
+          height: 8px;
+          background: $success; /* From ui.html */
+          border-radius: 50%;
+          box-shadow: 0 0 8px $success; /* From ui.html */
+        }
+      }
+    }
+
+    .chat-actions {
+      display: flex;
+      gap: $spacing-md; /* From ui.html */
+
+      .action-btn {
+        /* Button component handles its own styling */
+      }
+    }
+  }
 }

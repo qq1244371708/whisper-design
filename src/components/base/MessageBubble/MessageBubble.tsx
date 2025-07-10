@@ -1,34 +1,26 @@
 import React from 'react';
-import type {MessageBubbleProps} from './interfaces'
+import type { MessageBubbleProps } from './interfaces';
 import './MessageBubble.scss';
 
-const MessageBubble: React.FC<MessageBubbleProps> = ({
-  avatar,
-  content,
-  footer,
-  header,
-  id,
-  className = '',
-  placement = 'start',
-}) => {
+const MessageBubble: React.FC<MessageBubbleProps> = React.memo(({ id, content, sender, type = 'text', isLoading }) => {
+  const renderContent = () => {
+    switch (type) {
+      case 'image':
+        return <img src={content as string} alt="" />;
+      case 'code':
+        return <pre><code>{content as string}</code></pre>;
+      case 'text':
+      default:
+        return <p>{content}</p>;
+    }
+  };
+
   return (
-    <div className={`bubble bubble--${placement} ${className}`} key={id}>
-      {avatar && placement === 'start' && <div className="bubble-avatar">{avatar}</div>}
-      <div className="bubble-content">
-        {header && (
-          <div className="bubble-header">
-            {typeof header === 'function' ? header(content, { key: 'header' }) : header}
-          </div>
-        )}
-        <div className="bubble-message">{content}</div>
-        {footer && (
-          <div className="bubble-footer">
-            {typeof footer === 'function' ? footer(content, { key: 'footer' }) : footer}
-          </div>
-        )}
-      </div>
+    <div className={`message-bubble ${sender} message-bubble--${type}`} key={id}>
+      {renderContent()}
+      {isLoading && <span className="loading-indicator">...</span>} {/* Simple loading indicator */}
     </div>
   );
-};
+});
 
 export default MessageBubble;

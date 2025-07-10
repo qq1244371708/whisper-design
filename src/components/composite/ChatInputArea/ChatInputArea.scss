@@ -1,48 +1,97 @@
 @use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
 
-.sender-container {
-  display: flex;
-  flex-direction: column; // Changed to column
-  gap: $spacing-sm; // Adjusted gap for column layout
-  padding: $spacing-md;
-  border-top: 1px solid $border-color;
+.chat-input-area {
+  padding: $spacing-lg; /* From ui.html */
+  border-top: 1px solid rgba(77, 142, 255, 0.1); /* From ui.html */
+  background: rgba(10, 17, 38, 0.5); /* From ui.html */
 
-  .input-area-bottom { // New style for the input and button wrapper
+  .input-container {
+    background: $input-bg; /* From ui.html */
+    border: 1px solid rgba(77, 142, 255, 0.2); /* From ui.html */
+    border-radius: $radius-lg; /* From ui.html */
+    padding: $spacing-md; /* From ui.html */
     display: flex;
-    gap: $spacing-md;
-    width: 100%;
+    flex-direction: column;
+    gap: $spacing-md; /* From ui.html */
+    transition: $transition-fast; /* From ui.html */
+
+    &:focus-within {
+      border-color: $primary; /* From ui.html */
+      box-shadow: $glow; /* From ui.html */
+    }
   }
 
-  .sender-input {
+  .input-toolbar {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm; /* From ui.html */
+
+    .tool-button {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $light;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: $transition-fast;
+
+      &:hover {
+        background: rgba(77, 142, 255, 0.1); /* From ui.html */
+        color: $secondary; /* From ui.html */
+      }
+    }
+  }
+
+  .message-input {
     flex: 1;
-    padding: $spacing-md;
-    border: 1px solid $border-color;
-    border-radius: $border-radius;
-    font-size: 14px;
-    transition: border-color 0.2s ease;
+    background: transparent;
+    border: none;
+    color: $light;
+    font-family: $font-family;
+    font-size: 15px;
+    line-height: 1.5;
+    resize: none;
+    min-height: 80px;
+    max-height: 200px;
+    padding: 0 $spacing-sm; /* Adjusted padding */
 
     &:focus {
       outline: none;
-      border-color: $primary-color;
     }
   }
 
-  .sender-button {
-    padding: $spacing-md $spacing-lg;
-    background-color: $primary-color;
-    color: white;
+  .input-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .input-hints {
+    font-size: $font-size-sm;
+    color: rgba(245, 248, 255, 0.6); /* From ui.html */
+  }
+
+  .send-button {
+    padding: 10px 24px;
+    background: $gradient-primary; /* From ui.html */
+    color: $light;
     border: none;
-    border-radius: $border-radius;
+    border-radius: $radius-md; /* From ui.html */
+    font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs; /* From ui.html */
+    transition: $transition-fast;
 
     &:hover {
-      background-color: $primary-color;
-    }
-
-    &:disabled {
-      background-color: $disabled-color;
-      cursor: not-allowed;
+      transform: translateY(-2px); /* From ui.html */
+      box-shadow: $glow; /* From ui.html */
     }
   }
 }

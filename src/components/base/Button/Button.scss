@@ -1,4 +1,5 @@
 @use '../../../styles/mixins' as *;
+@use '../../../styles/variables' as *;
 
 .button {
   @include base-button-styles;
@@ -9,5 +10,22 @@
 
   &--secondary {
     @include secondary-button-styles;
+  }
+
+  &--circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(77, 142, 255, 0.1); /* From .action-btn */
+    color: $light; /* From .action-btn */
+    transition: $transition-fast; /* From .action-btn */
+
+    &:hover {
+      background: $primary; /* From .action-btn */
+      transform: translateY(-2px); /* From .action-btn */
+    }
   }
 }

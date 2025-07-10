@@ -5,7 +5,7 @@ import { useImmer } from "use-immer";
 import AIChatRoom from '../components/features/AIChatRoom/AIChatRoom';
 import ConversationList from '../components/features/ConversationList/ConversationList';
 import type { IMessage } from '../types/chat';
-import type { UploadedFile } from '../components/base/FileUpload/interfaces'; // Added
+import type { UploadedFile } from '../components/base/FileUpload/interfaces';
 import type { IConversation } from '../types/conversation';
 import './ChatRoomDemo.scss';
 
@@ -19,7 +19,7 @@ const ChatRoomDemo: React.FC = () => {
     if (conversations.length === 0) {
       handleNewConversation();
     }
-  }, []); // Run once on mount
+  }, []);
 
   const activeConversation = activeConversationId
     ? conversations.find(conv => conv.id === activeConversationId)
@@ -34,7 +34,7 @@ const ChatRoomDemo: React.FC = () => {
       lastUpdated: dayjs().valueOf(),
     };
     setConversations(draft => {
-      draft.unshift(newConversation); // Add to the beginning
+      draft.unshift(newConversation);
     });
     setActiveConversationId(newConvId);
   };
@@ -51,11 +51,9 @@ const ChatRoomDemo: React.FC = () => {
       }
     });
     if (activeConversationId === id) {
-      setActiveConversationId(conversations[0]?.id || null); // Switch to first or null
+      setActiveConversationId(conversations[0]?.id || null);
     }
   };
-
-  // Removed handleUpdateConversationTitle as it's no longer used
 
   const handleSendMessage = async (text: string, files: UploadedFile[]) => {
     if (!activeConversationId) return;
@@ -63,7 +61,7 @@ const ChatRoomDemo: React.FC = () => {
     const newUserMessage: IMessage = {
       id: uuid(),
       sender: 'user',
-      content: text || (files.length > 0 ? `Sent ${files.length} files.` : ''),
+      content: text,
       timestamp: dayjs().valueOf(),
     };
 
@@ -76,14 +74,31 @@ const ChatRoomDemo: React.FC = () => {
     });
 
     setIsAITyping(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate AI response delay
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    const aiResponseContent = `好的，您发送了：“${text}”。我还收到了 ${files.length} 个文件。正在思考中...`;
+    let aiResponseContent = `好的，您发送了：“${text}”。`;
+    let aiResponseType: IMessage['type'] = 'text';
+    let aiResponseFile: IMessage['file'] | undefined = undefined;
+
+    if (files.length > 0) {
+      const firstFile = files[0];
+      aiResponseContent += `我还收到了 ${files.length} 个文件。这是您上传的第一个文件：`;
+      aiResponseType = 'file';
+      aiResponseFile = {
+        name: firstFile.name,
+        size: firstFile.size,
+        url: URL.createObjectURL(firstFile), // Create a temporary URL for demo
+        type: firstFile.type,
+      };
+    }
+
     const newAIMessage: IMessage = {
       id: uuid(),
       sender: 'ai',
       content: aiResponseContent,
       timestamp: dayjs().valueOf(),
+      type: aiResponseType,
+      file: aiResponseFile,
     };
 
     setConversations(draft => {
@@ -98,36 +113,30 @@ const ChatRoomDemo: React.FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", height: "100vh", maxWidth: "1200px", margin: "0 auto", border: "1px solid #e0e0e0", borderRadius: "8px", overflow: "hidden" }}>
+    <div className="container"> {/* Applied container class */}
       <ConversationList
         conversations={conversations}
         activeConversationId={activeConversationId}
         onSelectConversation={handleSelectConversation}
         onNewConversation={handleNewConversation}
         onDeleteConversation={handleDeleteConversation}
-        // Removed onUpdateConversationTitle as it's not used by ConversationList anymore
       />
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        <h1 style={{ textAlign: "center", marginBottom: "20px", padding: "10px", borderBottom: "1px solid #eee" }}>
-          AI聊天室组件演示
-        </h1>
-        {activeConversation ? (
-          <AIChatRoom
-            messages={activeConversation.messages}
-            onSendMessage={handleSendMessage}
-            isAITyping={isAITyping}
-            config={{
-              userAvatar: "https://api.dicebear.com/7.x/initials/svg?seed=User",
-              aiAvatar: "https://api.dicebear.com/7.x/bottts/svg?seed=AI",
-              theme: 'light',
-            }}
-          />
-        ) : (
-          <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center", color: "#888" }}>
-            Select a conversation or start a new one.
-          </div>
-        )}
-      </div>
+      {activeConversation ? (
+        <AIChatRoom
+          messages={activeConversation.messages}
+          onSendMessage={handleSendMessage}
+          isAITyping={isAITyping}
+          config={{
+            userAvatar: "https://api.dicebear.com/7.x/initials/svg?seed=User",
+            aiAvatar: "https://api.dicebear.com/7.x/bottts/svg?seed=AI",
+            theme: 'light',
+          }}
+        />
+      ) : (
+        <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center", color: "#888", background: "rgba(15, 23, 42, 0.8)", borderRadius: "16px", border: "1px solid rgba(77, 142, 255, 0.15)", boxShadow: "0 4px 12px rgba(77, 142, 255, 0.2)" }}>
+          Select a conversation or start a new one.
+        </div>
+      )}
     </div>
   );
 };

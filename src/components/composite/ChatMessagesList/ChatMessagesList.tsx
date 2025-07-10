@@ -21,7 +21,7 @@ const ChatMessagesList: React.FC<ChatMessagesListProps> = ({ messages, config, i
   }, [messages]); // Scroll to bottom when messages change
 
   return (
-    <div className="chat-messages-list">
+    <div className="chat-messages"> {/* Changed class name */}
       {messages.map((message) => (
         <ChatMessage key={message.id} message={message} config={config} />
       ))}

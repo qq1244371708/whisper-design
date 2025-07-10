@@ -1,74 +1,88 @@
 @use '../../../styles/variables' as *;
 
-.bubble {
-  display: flex;
-  align-items: flex-start;
-  gap: $spacing-md;
-  margin-bottom: $spacing-lg;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  &-avatar {
-    width: $avatar-size;
-    height: $avatar-size;
-    border-radius: 50%;
-    background-color: $border-color;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+.message-bubble {
+  padding: 16px 20px;
+  border-radius: $radius-lg;
+  position: relative;
+  line-height: 1.6;
+  animation: fadeIn 0.3s ease-out;
+  word-wrap: break-word;
+  white-space: pre-wrap; /* Preserve whitespace and line breaks */
+
+  &.user {
+    background: $user-bubble;
+    border-top-right-radius: $radius-sm;
+    box-shadow: $shadow-sm;
+    color: $light;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      right: 20px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid $user-bubble;
+    }
+  }
+
+  &.ai {
+    background: $ai-bubble;
+    border: 1px solid rgba(77, 142, 255, 0.15);
+    border-top-left-radius: $radius-sm;
+    color: $light;
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 20px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid $ai-bubble;
+    }
+  }
+
+  /* Styles for different message types */
+  &--text {
+    /* Default text styles */
+  }
+
+  &--image {
+    padding: 0; /* Images don't need padding */
+    border-radius: $radius-md; /* Slightly smaller radius for images */
     overflow: hidden;
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
   }
 
-  &-content-wrapper {
-    flex: 1;
-    max-width: calc(100% - #{$avatar-size + $spacing-md});
-  }
+  &--code {
+    background-color: rgba(0, 0, 0, 0.3); /* Darker background for code */
+    border-radius: $radius-sm;
+    padding: 12px;
+    font-family: 'Fira Code', 'Consolas', 'Monaco', monospace; /* Monospace font for code */
+    font-size: $font-size-sm;
+    overflow-x: auto; /* Enable horizontal scrolling for long lines */
 
-  &-header {
-    margin-bottom: $spacing-sm;
-    font-size: 14px;
-    color: $text-color-secondary;
-  }
-
-  &-content {
-    padding: 10px 14px;
-    border-radius: $border-radius;
-    background-color: #ffffff;
-    border: 1px solid $border-color;
-    word-wrap: break-word;
-    transition: all 0.2s ease;
-  }
-
-  &-footer {
-    margin-top: $spacing-sm;
-    font-size: 12px;
-    color: $text-color-tertiary;
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  // 不同位置样式
-  &--start {
-    justify-content: flex-start;
-  }
-
-  &--end {
-    justify-content: flex-end;
-  }
-
-  // 不同发送者样式
-  &.is-user {
-    flex-direction: row-reverse;
-
-    .bubble-content {
-      min-width: 150px;
-      background-color: $primary-color;
-      color: #ffffff;
-      border-color: $primary-color;
+    pre {
+      margin: 0;
     }
 
-    .bubble-header,
-    .bubble-footer {
-      text-align: right;
+    code {
+      display: block;
     }
   }
 }

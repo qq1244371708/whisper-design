@@ -2,15 +2,13 @@ import React, { useState, useMemo } from 'react';
 import type { IConversation } from '../../../types/conversation';
 import ConversationItem from '../../composite/ConversationItem/ConversationItem';
 import './ConversationList.scss';
-// Removed uuid and dayjs as they are not directly used here
 
 interface ConversationListProps {
   conversations: IConversation[];
   activeConversationId: string | null;
   onSelectConversation: (id: string) => void;
-  onNewConversation: () => void;
+  onNewConversation: () => void; // Keep this prop for functionality, but remove button from UI
   onDeleteConversation: (id: string) => void;
-  // onUpdateConversationTitle: (id: string, newTitle: string) => void; // Removed
 }
 
 const ConversationList: React.FC<ConversationListProps> = ({
@@ -19,7 +17,6 @@ const ConversationList: React.FC<ConversationListProps> = ({
   onSelectConversation,
   onNewConversation,
   onDeleteConversation,
-  // onUpdateConversationTitle, // Removed
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -35,20 +32,24 @@ const ConversationList: React.FC<ConversationListProps> = ({
   }, [conversations, searchQuery]);
 
   return (
-    <div className="conversation-list-container">
-      <div className="conversation-list__header">
-        <input
-          type="text"
-          placeholder="Search conversations..."
-          className="conversation-list__search-input"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button className="conversation-list__new-btn" onClick={onNewConversation}>
-          + New Chat
-        </button>
+    <div className="conversations-panel"> {/* Changed class name */}
+      <div className="panel-header"> {/* New header structure */}
+        <div className="panel-title">
+          <i className="fas fa-comments"></i>
+          对话列表
+        </div>
+        <div className="search-container">
+          <i className="fas fa-search search-icon"></i>
+          <input
+            type="text"
+            className="search-input"
+            placeholder="搜索对话..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
       </div>
-      <div className="conversation-list__items">
+      <div className="conversation-list"> {/* Changed class name */}
         {filteredConversations.length > 0 ? (
           filteredConversations.map(conv => (
             <ConversationItem
@@ -56,8 +57,6 @@ const ConversationList: React.FC<ConversationListProps> = ({
               conversation={conv}
               isActive={conv.id === activeConversationId}
               onClick={onSelectConversation}
-              onDelete={onDeleteConversation}
-              // Removed onEditTitle as it's not implemented in ConversationItem
             />
           ))
         ) : (

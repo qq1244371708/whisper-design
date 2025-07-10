@@ -1,0 +1,33 @@
+@use '../styles/variables' as *;
+
+body {
+  font-family: var(--font-family); /* Using CSS variable from global styles */
+  background-color: $dark; /* Using Sass variable */
+  color: $light; /* Using Sass variable */
+  line-height: 1.6;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(77, 142, 255, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.05) 0%, transparent 20%);
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: $spacing-lg; /* 24px from ui.html */
+  height: calc(100vh - 40px);
+
+  /* Responsive design from ui.html */
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    height: auto;
+
+    .conversations-panel {
+      height: 300px;
+    }
+  }
+}

@@ -110,26 +110,26 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
       {internalFiles.length > 0 && (
         <div className="file-list">
-          {internalFiles.map(file => (
-            <div key={file.id} className="file-card">
-              <span className="file-icon">{getFileIcon(file)}</span>
-              {file.preview && <img src={file.preview} alt="preview" className="file-preview" />}
-              <div className="file-info">
-                <span className="file-name">{file.name}</span>
-                <span className="file-size">{formatFileSize(file.size)}</span>
-              </div>
-              <button
-                type="button"
-                className="file-remove-button"
-                onClick={() => handleFileRemove(file.id)}
-                disabled={disabled}
-              >
-                &times;
-              </button>
+        {internalFiles.map(file => (
+          <div key={file.id} className="file-card">
+            <span className="file-icon">{getFileIcon(file)}</span>
+            {file.preview && <img src={file.preview} alt="preview" className="file-preview" />}
+            <div className="file-info">
+              <span className="file-name">{file.name}</span>
+              <span className="file-size">{formatFileSize(file.size)}</span>
             </div>
-          ))}
-        </div>
-      )}
+            <button
+              type="button"
+              className="file-remove-button"
+              onClick={() => handleFileRemove(file.id)}
+              disabled={disabled}
+            >
+              &times;
+            </button>
+          </div>
+        ))}
+      </div>
+          )}
     </div>
   );
 };

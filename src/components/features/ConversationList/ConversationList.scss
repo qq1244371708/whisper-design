@@ -1,45 +1,69 @@
 @use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as *; // Add mixins import
 
-.conversation-list-container {
+.conversations-panel {
+  background: rgba(15, 23, 42, 0.8); /* From ui.html */
+  border-radius: $radius-lg; /* From ui.html */
+  border: 1px solid rgba(77, 142, 255, 0.15); /* From ui.html */
+  backdrop-filter: blur(10px); /* From ui.html */
   display: flex;
   flex-direction: column;
-  width: 300px; // Fixed width for sidebar
-  border-right: 1px solid $border-color;
-  background-color: #f0f2f5; // Light background for sidebar
-  padding: $spacing-md;
-  gap: $spacing-md;
+  overflow: hidden;
+  box-shadow: $shadow-md; /* From ui.html */
+  width: 300px; /* Fixed width from ui.html */
 
-  .conversation-list__header {
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-sm;
-    margin-bottom: $spacing-md;
+  .panel-header {
+    padding: $spacing-md; /* From ui.html */
+    border-bottom: 1px solid rgba(77, 142, 255, 0.1); /* From ui.html */
 
-    .conversation-list__search-input {
-      padding: $spacing-sm;
-      border: 1px solid $border-color;
-      border-radius: $border-radius;
-      font-size: $font-size-base;
+    .panel-title {
+      font-size: 20px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm; /* From ui.html */
+      color: $light;
     }
 
-    .conversation-list__new-btn {
-      @include base-button-styles; // Use mixin
-      @include primary-button-styles; // Use mixin
-      font-size: $font-size-base;
-      padding: $spacing-sm $spacing-md;
+    .search-container {
+      position: relative;
+      margin-top: $spacing-md; /* From ui.html */
+
+      .search-input {
+        width: 100%;
+        padding: 12px 16px 12px 40px; /* From ui.html */
+        background: rgba(10, 17, 38, 0.6); /* From ui.html */
+        border: 1px solid rgba(77, 142, 255, 0.2); /* From ui.html */
+        border-radius: $radius-md; /* From ui.html */
+        color: $light;
+        font-size: 14px;
+        transition: $transition-fast; /* From ui.html */
+
+        &:focus {
+          outline: none;
+          border-color: $primary; /* From ui.html */
+          box-shadow: $glow; /* From ui.html */
+        }
+      }
+
+      .search-icon {
+        position: absolute;
+        left: $spacing-md;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(245, 248, 255, 0.6); /* From ui.html */
+      }
     }
   }
 
-  .conversation-list__items {
-    flex-grow: 1;
+  .conversation-list {
+    flex: 1;
     overflow-y: auto;
-    // No gap here, as ConversationItem has bottom border
-  }
+    padding: $spacing-md; /* From ui.html */
 
-  .conversation-list__empty {
-    text-align: center;
-    color: $text-color-tertiary;
-    padding: $spacing-md;
+    .conversation-list__empty {
+      text-align: center;
+      color: $text-color-tertiary;
+      padding: $spacing-md;
+    }
   }
 }

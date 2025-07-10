@@ -5,22 +5,47 @@ $spacing-md: 16px;
 $spacing-lg: 24px;
 $spacing-xl: 32px;
 
-// Color variables
-$primary-color: #007bff;
-$secondary-color: #6c757d;
-$border-color: #e0e0e0;
-$disabled-color: #cccccc;
-$text-color-secondary: #666666;
-$text-color-tertiary: #999999;
+// Color variables (Tech-sense palette)
+$primary: #4D8EFF;
+$primary-light: #6aa1ff;
+$secondary: #00F0FF;
+$dark: #0A1126;
+$light: #F5F8FF;
+$success: #28D193;
+$error: #FF4D7A;
+$warning: #FFC84D;
+$user-bubble: #4D8EFF;
+$ai-bubble: #2A334D;
+$input-bg: rgba(20, 30, 60, 0.7);
 
-// Border variables
-$border-radius: 4px;
+// Gradient effects
+$gradient-primary: linear-gradient(135deg, #4D8EFF 0%, #6A11CB 100%);
+$gradient-secondary: linear-gradient(135deg, #00F0FF 0%, #00C2FF 100%);
 
-// Component specific variables
-$avatar-size: 48px; // Default avatar size
+// Border radius system
+$radius-sm: 6px;
+$radius-md: 10px;
+$radius-lg: 16px;
+$radius-xl: 24px;
 
-// Font variables
-$font-size-xs: 10px; // Added
-$font-size-sm: 12px; // Added
+// Shadow effects
+$shadow-sm: 0 2px 8px rgba(77, 142, 255, 0.15);
+$shadow-md: 0 4px 12px rgba(77, 142, 255, 0.2);
+$shadow-lg: 0 8px 24px rgba(77, 142, 255, 0.25);
+$glow: 0 0 12px rgba(77, 142, 255, 0.4);
+
+// Transition effects
+$transition-fast: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+$transition-medium: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+// Font system
+$font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+// Font sizes (keeping existing for now, will adjust as needed)
+$font-size-xs: 10px;
+$font-size-sm: 12px;
 $font-size-base: 16px;
-$font-size-md: 18px; // Added
+$font-size-md: 18px;
+
+// Component specific variables (keeping existing for now, will adjust as needed)
+$avatar-size: 48px; // Default avatar size

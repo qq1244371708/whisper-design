@@ -1,70 +1,63 @@
 @use '../../../styles/variables' as *;
-@use "sass:color"; // Added
 
 .conversation-item {
-  display: flex;
-  align-items: center;
-  padding: $spacing-sm $spacing-md;
-  border-bottom: 1px solid $border-color;
+  padding: $spacing-md; /* From ui.html */
+  border-radius: $radius-md; /* From ui.html */
+  margin-bottom: $spacing-sm; /* From ui.html */
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: $transition-fast; /* From ui.html */
+  display: flex;
+  gap: $spacing-md; /* From ui.html */
+  position: relative;
+  color: $light; /* Ensure text is visible */
 
   &:hover {
-    background-color: color.adjust($border-color, $lightness: 5%); // Changed
+    background: rgba(77, 142, 255, 0.1); /* From ui.html */
   }
 
-  &--active {
-    background-color: $primary-color;
-    color: white;
-
-    .conversation-item__snippet,
-    .conversation-item__time,
-    .conversation-item__delete-btn {
-      color: color.adjust(white, $lightness: 20%); // Changed
-    }
+  &.active {
+    background: rgba(77, 142, 255, 0.15); /* From ui.html */
+    border-left: 3px solid $primary; /* From ui.html */
   }
 
-  &__info {
-    flex-grow: 1;
+  .conversation-avatar {
+    /* Avatar component handles its own styling */
+  }
+
+  .conversation-info {
+    flex: 1;
     overflow: hidden;
   }
 
-  &__title {
-    font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  &__snippet {
-    font-size: $font-size-sm;
-    color: $text-color-secondary;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  &__meta {
+  .conversation-title {
+    font-weight: 500;
+    margin-bottom: 4px;
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin-left: $spacing-md;
+    justify-content: space-between;
+    font-size: $font-size-base;
   }
 
-  &__time {
-    font-size: $font-size-xs;
-    color: $text-color-tertiary;
+  .conversation-time {
+    font-size: $font-size-sm;
+    color: rgba(245, 248, 255, 0.5); /* From ui.html */
   }
 
-  &__delete-btn {
-    background: none;
-    border: none;
-    color: $text-color-secondary;
-    cursor: pointer;
-    font-size: $font-size-md;
-    margin-top: $spacing-xs;
-    &:hover {
-      color: red;
-    }
+  .conversation-preview {
+    font-size: $font-size-sm;
+    color: rgba(245, 248, 255, 0.7); /* From ui.html */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .conversation-badge {
+    position: absolute;
+    top: $spacing-md; /* From ui.html */
+    right: $spacing-md; /* From ui.html */
+    width: 8px;
+    height: 8px;
+    background: $secondary; /* From ui.html */
+    border-radius: 50%;
+    box-shadow: 0 0 8px $secondary; /* From ui.html */
   }
 }

@@ -1,10 +1,18 @@
+import { UploadedFile } from '../components/base/FileUpload/interfaces';
+
 export interface IMessage {
   id: string;
   sender: 'user' | 'ai';
   content: string; // 可以是文本、图片URL等
   timestamp: number; // 时间戳
-  type?: 'text' | 'image' | 'code'; // 消息类型
+  type?: 'text' | 'image' | 'code' | 'file'; // 消息类型
   isLoading?: boolean; // AI消息是否正在生成中
+  file?: { // Optional file attachment details
+    name: string;
+    size: number;
+    url: string;
+    type: string; // MIME type
+  };
 }
 
 export interface IChatConfig {
@@ -16,6 +24,6 @@ export interface IChatConfig {
 // 统一管理枚举值
 export type MessageSender = 'user' | 'ai';
 
-export type MessageType = 'text' | 'image' | 'code';
+export type MessageType = 'text' | 'image' | 'code' | 'file';
 
 export type ChatTheme = 'light' | 'dark';

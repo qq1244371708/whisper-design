@@ -1,23 +1,27 @@
 @use '../../../styles/variables' as *;
 
-.chat-message {
+.message-row {
   display: flex;
-  align-items: flex-start;
-  margin-bottom: $spacing-sm;
+  gap: $spacing-md;
+  align-items: flex-end; /* Align avatars and bubbles at the bottom */
 
-  &--start {
-    justify-content: flex-start;
-
-    .bubble { // Assuming MessageBubble has a class
-      margin-left: $spacing-sm;
-    }
+  &.user {
+    flex-direction: row-reverse;
   }
 
-  &--end {
-    justify-content: flex-end;
+  .message-content {
+    max-width: 75%; /* From ui.html */
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm; /* From ui.html */
+  }
 
-    .bubble { // Assuming MessageBubble has a class
-      margin-right: $spacing-sm;
-    }
+  .message-time {
+    font-size: $font-size-sm;
+    color: rgba(245, 248, 255, 0.5); /* From ui.html */
+  }
+
+  &.user .message-time {
+    text-align: right; /* From ui.html */
   }
 }

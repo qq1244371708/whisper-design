@@ -1,12 +1,12 @@
 @use '../../../styles/variables' as *;
 
-.chat-messages-list {
-  flex-grow: 1;
+.chat-messages {
+  flex: 1;
+  padding: $spacing-lg; /* From ui.html */
   overflow-y: auto;
-  padding: $spacing-sm;
   display: flex;
   flex-direction: column;
-  gap: $spacing-sm; // Space between messages
+  gap: $spacing-xl; /* From ui.html, 32px */
 
   .loading-more {
     text-align: center;

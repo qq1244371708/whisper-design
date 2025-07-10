@@ -1,23 +1,28 @@
 @use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as *; // Add mixins import
+@use '../../../styles/mixins' as *;
 
-.file-upload-container {
+.file-upload-area {
   display: flex;
   flex-direction: column;
   gap: $spacing-sm;
   padding: $spacing-sm;
-  border: 1px dashed $border-color;
-  border-radius: $border-radius;
-  background-color: #f8f8f8;
-  margin-bottom: $spacing-md; // Space below the upload area
+  border: 1px dashed rgba(77, 142, 255, 0.2); /* Adjusted border color */
+  border-radius: $radius-md; /* Using new radius variable */
+  background-color: rgba(10, 17, 38, 0.6); /* Adjusted background color */
+  margin-bottom: $spacing-md;
+  color: $light; /* Ensure text is visible */
 
   .file-upload-button {
-    @include base-button-styles; // Use mixin instead of extend
-    background-color: $primary-color;
-    color: white;
-    align-self: flex-start; // Align button to start
-    padding: $spacing-xs $spacing-sm; // Smaller padding for upload button
-    font-size: $font-size-sm; // Smaller font size
+    @include base-button-styles;
+    background-color: $primary; /* Using new primary color */
+    color: $light;
+    align-self: flex-start;
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+
+    &:hover {
+      background-color: color.adjust($primary, $lightness: 10%); /* Lighter on hover */
+    }
   }
 
   .file-list {
@@ -30,21 +35,23 @@
     display: flex;
     align-items: center;
     padding: $spacing-xs;
-    border: 1px solid $border-color;
-    border-radius: $border-radius;
-    background-color: #ffffff;
+    border: 1px solid rgba(77, 142, 255, 0.2);
+    border-radius: $radius-md;
+    background-color: rgba(10, 17, 38, 0.8); /* Darker background for cards */
     font-size: $font-size-sm;
+    color: $light;
 
     .file-icon {
       margin-right: $spacing-xs;
       font-size: $font-size-md;
+      color: $secondary; /* Highlight icon */
     }
 
     .file-preview {
       width: 40px;
       height: 40px;
       object-fit: cover;
-      border-radius: $border-radius;
+      border-radius: $radius-sm;
       margin-right: $spacing-xs;
     }
 
@@ -55,15 +62,15 @@
       margin-right: $spacing-xs;
 
       .file-name {
-        font-weight: bold;
+        font-weight: 500;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 120px; // Limit name width
+        max-width: 120px;
       }
 
       .file-size {
-        color: $text-color-tertiary;
+        color: rgba(245, 248, 255, 0.6);
         font-size: $font-size-xs;
       }
     }
@@ -71,14 +78,75 @@
     .file-remove-button {
       background: none;
       border: none;
-      color: $text-color-secondary;
+      color: rgba(245, 248, 255, 0.6);
       cursor: pointer;
       font-size: $font-size-md;
       padding: 0 $spacing-xs;
 
       &:hover {
-        color: $primary-color;
+        color: $error; /* Red on hover for remove */
       }
+    }
+  }
+}
+
+/* Styles for displaying file attachments within messages */
+.file-attachment {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(10, 17, 38, 0.6);
+  border: 1px solid rgba(77, 142, 255, 0.2);
+  border-radius: $radius-md;
+  margin-top: 12px;
+  max-width: 300px;
+  cursor: pointer;
+  transition: $transition-fast;
+  color: $light;
+
+  &:hover {
+    background: rgba(77, 142, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 240, 255, 0.2); /* From ui.html */
+  }
+
+  .file-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-sm;
+    background: rgba(77, 142, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $primary;
+    font-size: 18px;
+  }
+
+  .file-info {
+    flex: 1;
+    overflow: hidden;
+
+    .file-name {
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-size {
+      font-size: 12px;
+      color: rgba(245, 248, 255, 0.6);
+    }
+  }
+
+  .file-download {
+    color: $primary;
+    transition: $transition-fast;
+
+    &:hover {
+      color: $secondary;
     }
   }
 }

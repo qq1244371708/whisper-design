@@ -4,31 +4,32 @@
 @mixin base-button-styles {
   padding: $spacing-sm $spacing-md;
   border: none;
-  border-radius: $border-radius;
+  border-radius: $radius-md; // Updated to use new radius variable
   cursor: pointer;
   font-size: $font-size-base;
-  transition: background-color 0.3s ease;
+  transition: $transition-fast; // Updated to use new transition variable
 
   &:disabled {
-    background-color: $disabled-color;
+    background-color: $disabled-color; // Keeping this for now, might need to adjust based on new design
     cursor: not-allowed;
   }
 }
 
 @mixin primary-button-styles {
-  background-color: $primary-color;
-  color: white;
+  background: $gradient-primary; // Updated to use new gradient variable
+  color: $light; // Updated to use new light color variable
 
   &:hover:not(:disabled) {
-    background-color: color.adjust($primary-color, $lightness: -10%);
+    transform: translateY(-2px); // Added hover effect from ui.html
+    box-shadow: $glow; // Added glow effect from ui.html
   }
 }
 
 @mixin secondary-button-styles {
-  background-color: $secondary-color;
-  color: white;
+  background-color: $secondary; // Updated to use new secondary color variable
+  color: $light; // Updated to use new light color variable
 
   &:hover:not(:disabled) {
-    background-color: color.adjust($secondary-color, $lightness: -10%);
+    background-color: color.adjust($secondary, $lightness: -10%); // Keeping color adjust for now
   }
 }
