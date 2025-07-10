@@ -37,6 +37,7 @@
         color: $light;
         font-size: 14px;
         transition: $transition-fast; /* From ui.html */
+        box-sizing: border-box; /* Ensure padding is included in width */
 
         &:focus {
           outline: none;

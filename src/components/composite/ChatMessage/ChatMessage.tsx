@@ -2,7 +2,6 @@ import React from 'react';
 import type { IMessage, IChatConfig } from '../../../types/chat';
 import Avatar from '../../base/Avatar/Avatar';
 import MessageBubble from '../../base/MessageBubble/MessageBubble';
-import FileUpload from '../../base/FileUpload/FileUpload'; // Import FileUpload
 import './ChatMessage.scss';
 
 interface ChatMessageProps {
@@ -41,16 +40,8 @@ const ChatMessage: React.FC<ChatMessageProps> = React.memo(({ message, config })
           sender={message.sender}
           type={message.type}
           isLoading={message.isLoading}
+          files={message.files}
         />
-        {message.type === 'file' && message.file && (
-          <FileUpload
-            displayMode="attachment"
-            fileName={message.file.name}
-            fileSize={message.file.size}
-            fileType={message.file.type}
-            fileUrl={message.file.url}
-          />
-        )}
         <div className="message-time">{formatTime(message.timestamp)}</div>
       </div>
     </div>

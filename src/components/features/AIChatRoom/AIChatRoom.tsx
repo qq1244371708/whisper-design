@@ -4,7 +4,6 @@ import type { UploadedFile } from '../../base/FileUpload/interfaces';
 import ChatMessagesList from '../../composite/ChatMessagesList/ChatMessagesList';
 import ChatInputArea from '../../composite/ChatInputArea/ChatInputArea';
 import Avatar from '../../base/Avatar/Avatar'; // Import Avatar
-import Button from '../../base/Button/Button'; // Import Button
 import './AIChatRoom.scss';
 
 interface AIChatRoomProps {
@@ -41,17 +40,7 @@ const AIChatRoom: React.FC<AIChatRoomProps> = ({
             <span>{isAITyping ? '正在输入...' : '在线 · 响应迅速'}</span>
           </div>
         </div>
-        <div className="chat-actions">
-          <Button isCircle onClick={() => console.log('Phone clicked')}>
-            <i className="fas fa-phone-alt"></i>
-          </Button>
-          <Button isCircle onClick={() => console.log('Video clicked')}>
-            <i className="fas fa-video"></i>
-          </Button>
-          <Button isCircle onClick={() => console.log('Ellipsis clicked')}>
-            <i className="fas fa-ellipsis-h"></i>
-          </Button>
-        </div>
+
       </div>
       <ChatMessagesList messages={messages} config={config} />
       <ChatInputArea

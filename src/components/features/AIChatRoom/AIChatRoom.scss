@@ -48,13 +48,6 @@
       }
     }
 
-    .chat-actions {
-      display: flex;
-      gap: $spacing-md; /* From ui.html */
 
-      .action-btn {
-        /* Button component handles its own styling */
-      }
-    }
   }
 }

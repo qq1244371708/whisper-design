@@ -1,5 +1,9 @@
 @use '../styles/variables' as *;
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: var(--font-family); /* Using CSS variable from global styles */
   background-color: $dark; /* Using Sass variable */
@@ -8,8 +12,8 @@ body {
   background-image:
     radial-gradient(circle at 10% 20%, rgba(77, 142, 255, 0.05) 0%, transparent 20%),
     radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.05) 0%, transparent 20%);
-  min-height: 100vh;
-  overflow-x: hidden;
+  height: 100vh; /* Fixed height instead of min-height */
+  overflow: hidden; /* Prevent body scrolling */
   padding: 20px;
 }
 

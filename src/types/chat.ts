@@ -7,12 +7,7 @@ export interface IMessage {
   timestamp: number; // 时间戳
   type?: 'text' | 'image' | 'code' | 'file'; // 消息类型
   isLoading?: boolean; // AI消息是否正在生成中
-  file?: { // Optional file attachment details
-    name: string;
-    size: number;
-    url: string;
-    type: string; // MIME type
-  };
+  files?: UploadedFile[]; // Optional file attachments
 }
 
 export interface IChatConfig {

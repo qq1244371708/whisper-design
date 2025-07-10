@@ -63,6 +63,7 @@ const ChatRoomDemo: React.FC = () => {
       sender: 'user',
       content: text,
       timestamp: dayjs().valueOf(),
+      files: files.length > 0 ? files : undefined,
     };
 
     setConversations(draft => {
@@ -77,19 +78,8 @@ const ChatRoomDemo: React.FC = () => {
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     let aiResponseContent = `好的，您发送了：“${text}”。`;
-    let aiResponseType: IMessage['type'] = 'text';
-    let aiResponseFile: IMessage['file'] | undefined = undefined;
-
     if (files.length > 0) {
-      const firstFile = files[0];
-      aiResponseContent += `我还收到了 ${files.length} 个文件。这是您上传的第一个文件：`;
-      aiResponseType = 'file';
-      aiResponseFile = {
-        name: firstFile.name,
-        size: firstFile.size,
-        url: URL.createObjectURL(firstFile), // Create a temporary URL for demo
-        type: firstFile.type,
-      };
+      aiResponseContent += `我还收到了 ${files.length} 个文件。`;
     }
 
     const newAIMessage: IMessage = {
@@ -97,8 +87,7 @@ const ChatRoomDemo: React.FC = () => {
       sender: 'ai',
       content: aiResponseContent,
       timestamp: dayjs().valueOf(),
-      type: aiResponseType,
-      file: aiResponseFile,
+      type: 'text',
     };
 
     setConversations(draft => {

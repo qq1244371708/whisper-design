@@ -12,7 +12,7 @@
   line-height: 1.6;
   animation: fadeIn 0.3s ease-out;
   word-wrap: break-word;
-  white-space: pre-wrap; /* Preserve whitespace and line breaks */
+  white-space: pre-line; /* Preserve line breaks but collapse whitespace */
 
   &.user {
     background: $user-bubble;
@@ -83,6 +83,61 @@
 
     code {
       display: block;
+    }
+  }
+
+  .file-attachments {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .file-attachment {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: $radius-sm;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: $transition-fast;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.3);
+        transform: translateY(-1px);
+      }
+
+      .file-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: $radius-sm;
+        background: rgba(77, 142, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $primary;
+        font-size: 14px;
+      }
+
+      .file-info {
+        flex: 1;
+        overflow: hidden;
+
+        .file-name {
+          font-size: 13px;
+          font-weight: 500;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          color: inherit;
+        }
+
+        .file-size {
+          font-size: 11px;
+          color: rgba(255, 255, 255, 0.6);
+          margin-top: 2px;
+        }
+      }
     }
   }
 }

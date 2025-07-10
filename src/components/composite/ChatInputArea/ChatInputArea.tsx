@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import FileUpload from '../../base/FileUpload/FileUpload';
+import React, { useState, useRef, useEffect } from "react";
+import { v4 as uuid } from 'uuid';
 import Button from '../../base/Button/Button'; // Import Button component
 import type { UploadedFile } from '../../base/FileUpload/interfaces';
 import "./ChatInputArea.scss";
@@ -43,17 +43,8 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = ({ onSendMessage, isSending 
     <form className="chat-input-area" onSubmit={handleSubmit}>
       <div className="input-container">
         <div className="input-toolbar">
-          <Button isCircle onClick={() => console.log('Plus clicked')} disabled={isSending}>
-            <i className="fas fa-plus"></i>
-          </Button>
           <Button isCircle onClick={() => fileInputRef.current?.click()} disabled={isSending}>
             <i className="fas fa-paperclip"></i>
-          </Button>
-          <Button isCircle onClick={() => console.log('Image clicked')} disabled={isSending}>
-            <i className="fas fa-image"></i>
-          </Button>
-          <Button isCircle onClick={() => console.log('Microphone clicked')} disabled={isSending}>
-            <i className="fas fa-microphone"></i>
           </Button>
         </div>
 
@@ -66,7 +57,8 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = ({ onSendMessage, isSending 
           onChange={(e) => {
             const selectedFiles = Array.from(e.target.files || []);
             const uploadedFiles: UploadedFile[] = selectedFiles.map(file => Object.assign(file, { id: uuid() }));
-            handleFilesChange(uploadedFiles);
+            // Append new files to existing files instead of replacing
+            handleFilesChange([...files, ...uploadedFiles]);
             e.target.value = ''; // Clear input
           }}
           style={{ display: 'none' }}
@@ -108,7 +100,7 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = ({ onSendMessage, isSending 
           <div className="input-hints">
             <i className="fas fa-lightbulb"></i> 按 Enter 发送，Shift + Enter 换行
           </div>
-          <Button type="submit" variant="primary" disabled={isSending}>
+          <Button type="submit" variant="primary" disabled={isSending} onClick={() => {}}>
             <i className="fas fa-paper-plane"></i>
             发送
           </Button>
