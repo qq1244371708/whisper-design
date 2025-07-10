@@ -1,0 +1,65 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.prompt-set {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+  text-align: center;
+
+  .welcome-message {
+    margin-bottom: 2.5rem;
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: $color-primary;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: $color-text-secondary;
+    }
+  }
+
+  .prompts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 800px;
+
+    .prompt-card {
+      background-color: $color-bg-secondary;
+      border-radius: 12px;
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid $color-border;
+      text-align: left;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba($color-primary, 0.1);
+      }
+
+      .prompt-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: $color-text-primary;
+        margin-bottom: 0.5rem;
+      }
+
+      .prompt-content {
+        font-size: 0.9rem;
+        color: $color-text-secondary;
+        line-height: 1.5;
+      }
+    }
+  }
+}

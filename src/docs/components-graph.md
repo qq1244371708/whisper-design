@@ -22,6 +22,7 @@ end
         ChatMessage
         ChatInputArea
         ConversationItem
+        PromptSet
     end
 
     subgraph Base
@@ -36,6 +37,7 @@ end
 
     AIChatRoom --> ChatMessagesList[ChatMessagesList:messages,config, isLoadingMore]
     AIChatRoom --> ChatInputArea[ChatInputArea:onSendMessage, isSending, placeholder, onFilesChange]
+    AIChatRoom --> PromptSet[PromptSet:onPromptClick]
 
      ConversationList --> ConversationItem[ConversationItem:conversation, isActive, onClick]
 
@@ -50,6 +52,7 @@ end
     style ChatRoomDemo fill:#000,stroke:#333,stroke-width:2px
     style AIChatRoom fill:#000,stroke:#333,stroke-width:2px
     style ConversationList fill:#000,stroke:#333,stroke-width: 2px
+    style PromptSet fill:#000,stroke:#333,stroke-width:2px
     style ChatMessagesList fill:#000,stroke:#333,stroke-width:2px
     style ChatMessage fill:#000,stroke:#333,stroke-width:2px
     style ChatInputArea fill:#000,stroke:#333,stroke-width:2px

@@ -1,28 +1,40 @@
 @use '../../../styles/variables' as *;
 
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
 .chat-container {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  background: rgba(15, 23, 42, 0.8); /* From ui.html */
-  border-radius: $radius-lg; /* From ui.html */
-  border: 1px solid rgba(77, 142, 255, 0.15); /* From ui.html */
-  backdrop-filter: blur(10px); /* From ui.html */
-  box-shadow: $shadow-md; /* From ui.html */
+  background-color: $color-bg-primary;
+  border-radius: 16px;
   overflow: hidden;
-  height: 100%; /* Ensure it takes full height */
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
   .chat-header {
-    padding: $spacing-md $spacing-lg; /* From ui.html */
-    border-bottom: 1px solid rgba(77, 142, 255, 0.1); /* From ui.html */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: $light;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid $color-border;
+    background-color: $color-bg-secondary;
 
     .chat-title {
-      font-size: 18px;
+      font-size: 1.2rem;
       font-weight: 600;
-      text-align: center;
+      color: $color-text-primary;
+    }
+  }
+
+  .chat-body {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    // This ensures that both ChatMessagesList and PromptSet can grow
+    > * {
+      flex: 1;
     }
   }
 }
+
