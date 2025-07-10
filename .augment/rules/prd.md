@@ -104,6 +104,9 @@ type: "always_apply"
     *   **`ConversationItem`**：
         *   `props`: `conversation: IConversation`, `isActive: boolean`, `onClick: (id: string) => void`, `onDelete: (id: string) => void`, `onEditTitle: (id: string, newTitle: string) => void`.
         *   `功能`: 显示单个会话的标题、最后一条消息片段和更新时间，并提供交互。
+    *   **`PromptSet`**：
+        *   `props`: `onPromptClick: (prompt: string) => void`.
+        *   `功能`: 在新会话或空会话中显示欢迎语和一组可点击的提示问题，以引导用户。
 
 #### 2.5. 核心功能组件开发 (`src/components/features`)
 
@@ -111,7 +114,7 @@ type: "always_apply"
 *   **组件列表与 Props 规划**：
     *   **`AIChatRoom`**：
         *   `props`: `messages: IMessage[]`, `onSendMessage: (message: string) => void`, `isAITyping?: boolean`, `config?: IChatConfig`.
-        *   `功能`: 整合 `ChatMessagesList` 和 `ChatInputArea`，形成完整的 AI 聊天室界面。
+        *   `功能`: 整合 `ChatMessagesList`、`ChatInputArea` 和 `PromptSet`，形成完整的 AI 聊天室界面。当消息列表为空时，显示 `PromptSet`。
     *   **`ConversationList`**：
         *   `props`: `conversations: IConversation[]`, `activeConversationId: string | null`, `onSelectConversation: (id: string) => void`, `onNewConversation: () => void`, `onDeleteConversation: (id: string) => void`, `onUpdateConversationTitle: (id: string, newTitle: string) => void`, `onSearch: (query: string) => void`.
         *   `功能`: 管理和显示会话列表，包括新增、切换、搜索等。
