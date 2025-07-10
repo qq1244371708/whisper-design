@@ -115,8 +115,8 @@ const ChatRoomDemo: React.FC = () => {
               : activeConversation.title
           }
           config={{
-            userAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=User',
-            aiAvatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=AI',
+            userAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=用户',
+            aiAvatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=robot',
             theme: 'light',
           }}
         />
