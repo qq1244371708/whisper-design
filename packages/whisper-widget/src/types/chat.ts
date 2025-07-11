@@ -1,5 +1,8 @@
 import type { UploadedFile } from '../components/base/FileUpload/interfaces';
 
+// 重新导出UploadedFile类型
+export type { UploadedFile };
+
 export interface IMessage {
   id: string;
   sender: 'user' | 'ai';

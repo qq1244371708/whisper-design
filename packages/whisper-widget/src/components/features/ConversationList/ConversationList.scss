@@ -10,6 +10,7 @@
   overflow: hidden;
   box-shadow: $shadow-md; /* From ui.html */
   width: 300px; /* Fixed width from ui.html */
+  height: 100%;
 
   .panel-header {
     padding: $spacing-md; /* From ui.html */

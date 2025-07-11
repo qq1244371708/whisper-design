@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import type { IMessage, IChatConfig } from '../../../types/chat';
-import type { UploadedFile } from '../../base/FileUpload/interfaces';
+import type { IMessage, IChatConfig, UploadedFile } from '../../../types/chat';
 import ChatMessagesList from '../../composite/ChatMessagesList/ChatMessagesList';
 import ChatInputArea from '../../composite/ChatInputArea/ChatInputArea';
 import PromptSet from '../../composite/PromptSet/PromptSet';
@@ -8,10 +7,11 @@ import './AIChatRoom.scss';
 
 interface AIChatRoomProps {
   messages: IMessage[];
-  onSendMessage: (message: string, files: UploadedFile[]) => void;
+  onSendMessage: (message: string, files?: UploadedFile[]) => void;
   isAITyping?: boolean;
   config?: IChatConfig;
   conversationTitle?: string;
+  placeholder?: string;
 }
 
 const AIChatRoom: React.FC<AIChatRoomProps> = ({
@@ -20,10 +20,11 @@ const AIChatRoom: React.FC<AIChatRoomProps> = ({
   isAITyping = false,
   config,
   conversationTitle,
+  placeholder = "输入消息...",
 }) => {
   const [isSending, setIsSending] = useState(false);
 
-  const handleSendMessage = async (message: string, files: UploadedFile[]) => {
+  const handleSendMessage = async (message: string, files: UploadedFile[] = []) => {
     if (isSending) return; // Prevent multiple sends
     setIsSending(true);
     await onSendMessage(message, files);
@@ -50,7 +51,7 @@ const AIChatRoom: React.FC<AIChatRoomProps> = ({
       <ChatInputArea
         onSendMessage={handleSendMessage}
         isSending={isSending || isAITyping}
-        placeholder="输入消息..."
+        placeholder={placeholder}
       />
     </div>
   );

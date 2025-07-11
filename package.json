@@ -1,70 +1,52 @@
 {
-  "name": "whisper-design",
-  "description": "A React component library for building AI chat room UIs.",
+  "name": "whisper-design-monorepo",
+  "description": "Monorepo for Whisper Design: UI components, BFF layer, and data services",
   "keywords": [
+    "monorepo",
     "ai",
     "chat",
     "room",
     "ui",
     "components",
-    "react"
+    "react",
+    "bff",
+    "api"
   ],
-  "private": false,
+  "private": true,
   "version": "0.1.0",
   "engines": {
     "node": ">=18.0.0",
-    "react": "^19.0.0"
+    "pnpm": ">=8.0.0"
   },
-  "main": "dist/ai-chat-room-components.cjs.js",
-  "module": "dist/ai-chat-room-components.es.mjs",
-  "type": "module",
-  "files": [
-    "dist"
-  ],
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/ai-chat-room-components.es.mjs",
-      "require": "./dist/ai-chat-room-components.cjs.js"
-    }
-  },
+  "packageManager": "pnpm@8.15.0",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "build:lib": "npm run build",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
-    "type-check": "tsc --noEmit",
-    "preview": "vite preview",
-    "clean": "rm -rf dist",
-    "prepublishOnly": "npm run clean && npm run build"
-  },
-  "dependencies": {
-    "@rollup/plugin-alias": "^5.1.1",
-    "dayjs": "^1.11.13",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.3",
-    "use-immer": "^0.11.0",
-    "uuid": "^11.1.0"
+    "dev": "pnpm --filter whisper-widget dev",
+    "dev:demo": "pnpm --filter demo dev",
+    "build": "pnpm -r build",
+    "build:widget": "pnpm --filter whisper-widget build",
+    "build:core": "pnpm --filter whisper-core build",
+    "build:service": "pnpm --filter whisper-service build",
+    "lint": "pnpm -r lint",
+    "lint:fix": "pnpm -r lint:fix",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
+    "type-check": "pnpm -r type-check",
+    "clean": "pnpm -r clean",
+    "install:all": "pnpm install",
+    "test": "pnpm -r test"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
     "@types/node": "^24.0.10",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@types/uuid": "^10.0.0",
-    "@vitejs/plugin-react": "^4.5.2",
     "eslint": "^9.29.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.2.0",
     "prettier": "^3.6.2",
-    "sass": "^1.89.2",
     "typescript": "~5.8.3",
-    "typescript-eslint": "^8.34.1",
-    "vite": "^7.0.0"
-  }
+    "typescript-eslint": "^8.34.1"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "shared/*"
+  ]
 }

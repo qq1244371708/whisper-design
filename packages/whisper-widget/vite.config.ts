@@ -1,13 +1,20 @@
 // vite.config.ts
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import dts from 'vite-plugin-dts';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    dts({
+      insertTypesEntry: true,
+      exclude: ['src/main.tsx', 'src/App.tsx', 'src/views/**/*'],
+    }),
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -16,9 +23,9 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'AIChatRoomComponents',
+      name: 'WhisperWidget',
       formats: ['es', 'cjs'],
-      fileName: format => `ai-chat-room-components.${format === 'es' ? 'mjs' : 'js'}`,
+      fileName: format => `whisper-widget.${format === 'es' ? 'mjs' : 'js'}`,
     },
     rollupOptions: {
       external: ['react', 'react-dom', 'dayjs', 'uuid', 'use-immer'],

@@ -1,0 +1,10 @@
+# pnpm workspace configuration
+packages:
+  # Core packages
+  - 'packages/*'
+  
+  # Demo applications
+  - 'apps/*'
+  
+  # Shared utilities (if needed as packages)
+  - 'shared/*'

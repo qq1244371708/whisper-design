@@ -6,9 +6,11 @@ import './ConversationList.scss';
 
 interface ConversationListProps {
   conversations: IConversation[];
-  activeConversationId: string | null;
-  onSelectConversation: (id: string) => void;
-  onNewConversation: () => void;
+  activeConversationId?: string | null;
+  onSelectConversation?: (id: string) => void;
+  onNewConversation?: () => void;
+  currentConversation?: IConversation;
+  onConversationSelect?: (conversation: IConversation) => void;
 }
 
 const ConversationList: React.FC<ConversationListProps> = ({
@@ -16,6 +18,8 @@ const ConversationList: React.FC<ConversationListProps> = ({
   activeConversationId,
   onSelectConversation,
   onNewConversation,
+  currentConversation,
+  onConversationSelect,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -41,9 +45,11 @@ const ConversationList: React.FC<ConversationListProps> = ({
         <div className="panel-title">
           <i className="fas fa-comments"></i>
           对话列表
-          <Button isCircle onClick={onNewConversation} className="new-conversation-btn">
-            <i className="fas fa-plus"></i>
-          </Button>
+          {onNewConversation && (
+            <Button isCircle onClick={onNewConversation} className="new-conversation-btn">
+              <i className="fas fa-plus"></i>
+            </Button>
+          )}
         </div>
         <div className="search-container">
           <i className="fas fa-search search-icon"></i>
@@ -64,8 +70,11 @@ const ConversationList: React.FC<ConversationListProps> = ({
             <ConversationItem
               key={conv.id}
               conversation={conv}
-              isActive={conv.id === activeConversationId}
-              onClick={onSelectConversation}
+              isActive={conv.id === activeConversationId || conv.id === currentConversation?.id}
+              onClick={(id) => {
+                onSelectConversation?.(id);
+                onConversationSelect?.(conv);
+              }}
             />
           ))
         ) : (

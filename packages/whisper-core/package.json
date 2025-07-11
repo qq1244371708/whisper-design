@@ -1,0 +1,62 @@
+{
+  "name": "@whisper-design/core",
+  "description": "BFF layer for Whisper Design - API proxy, data transformation, and SSR",
+  "keywords": [
+    "bff",
+    "api",
+    "proxy",
+    "express",
+    "ssr",
+    "middleware"
+  ],
+  "private": false,
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "main": "dist/index.js",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"src/**/*.{ts,js,json,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,js,json,md}\"",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "test": "vitest",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "compression": "^1.7.4",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.29.0",
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "@types/compression": "^1.7.5",
+    "@types/node": "^24.0.10",
+    "eslint": "^9.29.0",
+    "globals": "^16.2.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.7.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.34.1",
+    "vitest": "^1.0.0"
+  }
+}
