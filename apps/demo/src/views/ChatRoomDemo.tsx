@@ -12,6 +12,8 @@ import {
 import '@whisper-design/widget/styles';
 
 const ChatRoomDemo: React.FC = () => {
+  console.log('[ demo ]');
+
   const [conversations, setConversations] = useImmer<IConversation[]>([]);
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
   const [isAITyping, setIsAITyping] = useState(false);

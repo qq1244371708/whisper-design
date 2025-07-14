@@ -84,5 +84,115 @@
       color: $text-color-tertiary;
       padding: $spacing-md;
     }
+
+    // 为API版本添加的样式
+    .conversation-item-wrapper {
+      position: relative;
+
+      .delete-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 24px;
+        height: 24px;
+        background: transparent;
+        color: rgba(108, 117, 125, 0.6);
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        z-index: 10;
+
+        &:hover {
+          background: rgba(239, 68, 68, 0.1);
+          color: #ef4444;
+        }
+      }
+
+      &:hover .delete-btn {
+        opacity: 1;
+      }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: $spacing-xl;
+      color: #6c757d;
+
+      .empty-icon {
+        font-size: 48px;
+        margin-bottom: $spacing-md;
+      }
+
+      p {
+        margin-bottom: $spacing-md;
+        color: #6c757d;
+      }
+
+      .create-first-btn {
+        padding: $spacing-sm $spacing-md;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: $radius-md;
+        cursor: pointer;
+        transition: $transition-fast;
+
+        &:hover {
+          background: #0056b3;
+        }
+      }
+    }
+
+    .load-more {
+      text-align: center;
+      padding: $spacing-md;
+
+      .load-more-btn {
+        padding: $spacing-sm $spacing-md;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: $radius-md;
+        cursor: pointer;
+        transition: $transition-fast;
+
+        &:hover {
+          background: #0056b3;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .loading-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: $spacing-xl;
+      color: #6c757d;
+
+      .loading-spinner {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #e9ecef;
+        border-top: 2px solid #007bff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-right: $spacing-sm;
+      }
+    }
   }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

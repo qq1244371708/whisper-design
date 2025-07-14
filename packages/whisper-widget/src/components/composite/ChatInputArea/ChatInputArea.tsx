@@ -10,6 +10,8 @@ interface ChatInputAreaProps {
   isSending?: boolean;
   placeholder?: string;
   onFilesChange?: (files: UploadedFile[]) => void;
+  disabled?: boolean;
+  showFileUpload?: boolean;
 }
 
 const ChatInputArea: React.FC<ChatInputAreaProps> = ({
@@ -17,6 +19,8 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = ({
   isSending = false,
   placeholder = '输入消息...',
   onFilesChange,
+  disabled = false,
+  showFileUpload = true,
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [files, setFiles] = useState<UploadedFile[]>([]);
@@ -55,22 +59,24 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = ({
         </div>
 
         {/* Hidden file input for FileUpload component */}
-        <input
-          type="file"
-          ref={fileInputRef}
-          multiple
-          accept="image/*,.pdf,.xlsx,.docx"
-          onChange={e => {
-            const selectedFiles = Array.from(e.target.files || []);
-            const uploadedFiles: UploadedFile[] = selectedFiles.map(file =>
-              Object.assign(file, { id: uuid() })
-            );
-            // Append new files to existing files instead of replacing
-            handleFilesChange([...files, ...uploadedFiles]);
-            e.target.value = ''; // Clear input
-          }}
-          style={{ display: 'none' }}
-        />
+        {showFileUpload && (
+          <input
+            type="file"
+            ref={fileInputRef}
+            multiple
+            accept="image/*,.pdf,.xlsx,.docx"
+            onChange={e => {
+              const selectedFiles = Array.from(e.target.files || []);
+              const uploadedFiles: UploadedFile[] = selectedFiles.map(file =>
+                Object.assign(file, { id: uuid() })
+              );
+              // Append new files to existing files instead of replacing
+              handleFilesChange([...files, ...uploadedFiles]);
+              e.target.value = ''; // Clear input
+            }}
+            style={{ display: 'none' }}
+          />
+        )}
 
         {files.length > 0 && (
           <div className="file-list">
@@ -89,7 +95,7 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = ({
                   type="button"
                   className="file-remove-button"
                   onClick={() => handleFilesChange(files.filter(f => f.id !== file.id))}
-                  disabled={isSending}
+                  disabled={isSending || disabled}
                 >
                   &times;
                 </button>
@@ -105,14 +111,14 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = ({
           onChange={e => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
           aria-label="消息输入框"
-          disabled={isSending}
+          disabled={isSending || disabled}
         />
 
         <div className="input-actions">
           <div className="input-hints">
             <i className="fas fa-lightbulb"></i> 按 Enter 发送，Shift + Enter 换行
           </div>
-          <Button type="submit" variant="primary" disabled={isSending} onClick={() => {}}>
+          <Button type="submit" variant="primary" disabled={isSending || disabled} onClick={() => {}}>
             <i className="fas fa-paper-plane"></i>
             发送
           </Button>

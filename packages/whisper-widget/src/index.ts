@@ -12,8 +12,13 @@ export { default as ConversationItem } from './components/composite/Conversation
 
 // Feature Components
 export { default as AIChatRoom } from './components/features/AIChatRoom/AIChatRoom';
+export { default as AIChatRoomWithAPI } from './components/features/AIChatRoom/AIChatRoomWithAPI';
 export { default as ConversationList } from './components/features/ConversationList/ConversationList'; // Added
+export { default as ConversationListWithAPI } from './components/features/ConversationList/ConversationListWithAPI';
 
 // Types
 export * from './types/chat';
 export * from './types/conversation'; // Added
+
+// Services
+export * from './services';
