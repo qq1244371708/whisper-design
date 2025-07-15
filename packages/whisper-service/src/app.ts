@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import { config, validateConfig } from './config/index.js';
 import { initializeDatabase } from './config/database.js';
 import userRoutes from './routes/userRoutes.js';
+import conversationRoutes from './routes/conversationRoutes.js';
 
 // 验证配置
 validateConfig();
@@ -80,6 +81,7 @@ app.get('/api', (_req, res) => {
 
 // API路由
 app.use('/api/users', userRoutes);
+app.use('/api/conversations', conversationRoutes);
 
 // 404处理
 app.use('*', (req, res) => {
