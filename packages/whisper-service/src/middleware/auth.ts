@@ -37,11 +37,17 @@ export const authenticateToken = async (
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
 
+    // 演示模式：如果没有token，创建一个演示用户
     if (!token) {
-      res.status(401).json({
-        success: false,
-        message: 'Access token is required',
-      });
+      // 为演示目的，使用全局演示用户ID
+      const demoUserId = (global as any).demoUserId || 'demo-user-fallback';
+      req.user = {
+        userId: demoUserId,
+        username: 'demo_user',
+        email: 'demo@example.com',
+        role: 'user' as any,
+      };
+      next();
       return;
     }
 

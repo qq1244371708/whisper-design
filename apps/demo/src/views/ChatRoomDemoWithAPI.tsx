@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   AIChatRoomWithAPI,
   ConversationListWithAPI,
@@ -12,6 +12,7 @@ const ChatRoomDemoWithAPI: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0); // 用于强制刷新对话列表
+  const [activeConversationTitle, setActiveConversationTitle] = useState<string>('新对话');
 
   // 检查BFF服务连接状态
   useEffect(() => {
@@ -35,28 +36,63 @@ const ChatRoomDemoWithAPI: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleSelectConversation = (conversationId: string) => {
+  const handleSelectConversation = useCallback((conversationId: string) => {
     setActiveConversationId(conversationId);
-  };
+    setActiveConversationTitle('加载中...');
+  }, []);
 
-  const handleNewConversation = () => {
+  const handleNewConversation = useCallback(() => {
     setActiveConversationId(undefined); // 清除当前选择，让AIChatRoomWithAPI创建新对话
-  };
+    setActiveConversationTitle('新对话');
+  }, []);
 
-  const handleConversationChange = (conversationId: string) => {
+  const handleConversationChange = useCallback((conversationId: string, title?: string) => {
     setActiveConversationId(conversationId);
+    if (title) {
+      setActiveConversationTitle(title);
+    }
     // 触发对话列表刷新，以防新对话没有在列表中显示
     setRefreshKey(prev => prev + 1);
-  };
+  }, []);
 
-  const handleError = (error: Error) => {
+  const handleError = useCallback((error: Error) => {
     setError(error.message);
     console.error('Chat error:', error);
-  };
+    // 3秒后清除错误
+    setTimeout(() => setError(null), 3000);
+  }, []);
 
-  const clearError = () => {
+  const clearError = useCallback(() => {
     setError(null);
-  };
+  }, []);
+
+  // 缓存配置对象，避免不必要的重新渲染
+  const chatConfig = useMemo(() => ({
+    userAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=用户',
+    aiAvatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=robot',
+    theme: 'light' as const,
+    aiModel: 'gpt-3.5-turbo',
+  }), []);
+
+  // 缓存样式对象
+  const leftPanelStyle = useMemo(() => ({
+    width: '320px',
+    minWidth: '320px',
+    height: '100vh',
+    borderRight: '1px solid #e1e5e9',
+    backgroundColor: '#f8f9fa',
+    display: 'flex' as const,
+    flexDirection: 'column' as const,
+    overflow: 'hidden' as const
+  }), []);
+
+  const rightPanelStyle = useMemo(() => ({
+    flex: 1,
+    height: '100vh',
+    display: 'flex' as const,
+    flexDirection: 'column' as const,
+    overflow: 'hidden' as const
+  }), []);
 
   if (!isConnected) {
     return (
@@ -184,16 +220,7 @@ const ChatRoomDemoWithAPI: React.FC = () => {
       </div>
 
       {/* 左侧对话列表 */}
-      <div style={{ 
-        width: '320px', 
-        minWidth: '320px',
-        height: '100vh',
-        borderRight: '1px solid #e1e5e9',
-        backgroundColor: '#f8f9fa',
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden'
-      }}>
+      <div style={leftPanelStyle}>
         <ConversationListWithAPI
           key={refreshKey}
           userId={userId}
@@ -205,23 +232,12 @@ const ChatRoomDemoWithAPI: React.FC = () => {
       </div>
 
       {/* 右侧聊天区域 */}
-      <div style={{ 
-        flex: 1, 
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden'
-      }}>
+      <div style={rightPanelStyle}>
         <AIChatRoomWithAPI
           conversationId={activeConversationId}
           userId={userId}
-          config={{
-            userAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=用户',
-            aiAvatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=robot',
-            theme: 'light',
-            aiModel: 'gpt-3.5-turbo',
-          }}
-          conversationTitle={activeConversationId ? `对话 ${activeConversationId.slice(-8)}` : '新对话'}
+          config={chatConfig}
+          conversationTitle={activeConversationTitle}
           onConversationChange={handleConversationChange}
           onError={handleError}
         />

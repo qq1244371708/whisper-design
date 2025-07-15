@@ -152,8 +152,7 @@ export class ConversationRepository {
 
     queryBuilder
       .orderBy('conversation.pinned', 'DESC')
-      .addOrderBy('conversation.lastMessageAt', 'DESC')
-      .addOrderBy('conversation.updatedAt', 'DESC')
+      .addOrderBy('conversation.createdAt', 'DESC') // 按创建时间排序，最新的在前
       .skip((page - 1) * limit)
       .take(limit);
 

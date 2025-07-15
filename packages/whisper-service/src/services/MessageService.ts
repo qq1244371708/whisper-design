@@ -17,10 +17,16 @@ export class MessageService {
       data.conversationId,
       data.userId
     );
-    
+
     if (!conversation) {
       throw new Error('Conversation not found or access denied');
     }
+
+    // 检查是否需要更新标题（在创建消息之前检查）
+    const shouldUpdateTitle = conversation.messageCount === 0 &&
+                             conversation.title === '新对话' &&
+                             data.content &&
+                             data.senderType === 'user';
 
     // 创建消息
     const message = await this.messageRepository.create(data);
@@ -29,7 +35,27 @@ export class MessageService {
     await this.conversationRepository.incrementMessageCount(data.conversationId);
     await this.conversationRepository.updateLastMessage(data.conversationId);
 
+    // 如果这是对话的第一条用户消息，更新标题
+    if (shouldUpdateTitle) {
+      const newTitle = this.generateConversationTitle(data.content);
+      await this.conversationRepository.update(data.conversationId, { title: newTitle });
+      console.log(`Updated conversation title to: ${newTitle}`);
+    }
+
     return message;
+  }
+
+  // 生成对话标题的辅助方法
+  private generateConversationTitle(content: string): string {
+    // 取前30个字符作为标题，如果超过则添加省略号
+    const maxLength = 30;
+    const cleanContent = content.trim();
+
+    if (cleanContent.length <= maxLength) {
+      return cleanContent;
+    }
+
+    return cleanContent.substring(0, maxLength) + '...';
   }
 
   async getMessageById(id: string): Promise<Message | null> {

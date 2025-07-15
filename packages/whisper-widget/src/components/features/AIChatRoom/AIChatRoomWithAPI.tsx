@@ -12,7 +12,7 @@ interface AIChatRoomWithAPIProps {
   config?: IChatConfig;
   conversationTitle?: string;
   placeholder?: string;
-  onConversationChange?: (conversationId: string) => void;
+  onConversationChange?: (conversationId: string, title?: string) => void;
   onError?: (error: Error) => void;
 }
 
@@ -34,18 +34,20 @@ const AIChatRoomWithAPI: React.FC<AIChatRoomWithAPIProps> = ({
   // 加载对话消息
   const loadMessages = useCallback(async (convId: string) => {
     if (!convId) return;
-    
+
     setIsLoading(true);
     try {
       const conversation = await chatService.getConversationWithMessages(convId);
       setMessages(conversation.messages || []);
+      // 通知父组件对话标题
+      onConversationChange?.(convId, conversation.title);
     } catch (error) {
       console.error('Failed to load messages:', error);
       onError?.(error as Error);
     } finally {
       setIsLoading(false);
     }
-  }, [onError]);
+  }, [onError, onConversationChange]);
 
   // 创建新对话
   const createNewConversation = useCallback(async (title?: string) => {
@@ -56,7 +58,7 @@ const AIChatRoomWithAPI: React.FC<AIChatRoomWithAPIProps> = ({
       });
       setCurrentConversationId(conversation.id);
       setMessages([]);
-      onConversationChange?.(conversation.id);
+      onConversationChange?.(conversation.id, conversation.title);
       return conversation.id;
     } catch (error) {
       console.error('Failed to create conversation:', error);
@@ -127,9 +129,19 @@ const AIChatRoomWithAPI: React.FC<AIChatRoomWithAPIProps> = ({
       const sentMessage = await chatService.sendMessage(convId!, messageParams);
 
       // 更新用户消息为服务器返回的消息
-      setMessages(prev => prev.map(msg => 
+      setMessages(prev => prev.map(msg =>
         msg.id === userMessage.id ? sentMessage : msg
       ));
+
+      // 重新获取对话信息以更新标题（如果这是第一条消息）
+      try {
+        const updatedConversation = await chatService.getConversationWithMessages(convId!);
+        if (updatedConversation.title) {
+          onConversationChange?.(convId!, updatedConversation.title);
+        }
+      } catch (titleError) {
+        console.error('Failed to update conversation title:', titleError);
+      }
 
       // 准备AI聊天请求
       const chatMessages = [...messages, sentMessage].map(msg => ({
@@ -159,6 +171,8 @@ const AIChatRoomWithAPI: React.FC<AIChatRoomWithAPIProps> = ({
         // 保存AI消息到服务器
         const savedAiMessage = await chatService.sendMessage(convId!, {
           content: aiResponse.content.trim(),
+          sender: 'ai',
+          type: 'ai',
         });
 
         // 添加AI消息到列表

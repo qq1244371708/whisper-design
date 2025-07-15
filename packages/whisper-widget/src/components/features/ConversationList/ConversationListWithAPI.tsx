@@ -67,9 +67,10 @@ const ConversationListWithAPI: React.FC<ConversationListWithAPIProps> = ({
       setConversations(prev => [conversation, ...prev]);
       setTotal(prev => prev + 1);
 
-      // 选择新对话
+      // 自动选择新创建的对话
       onSelectConversation(conversation.id);
-      // 不要调用 onNewConversation()，因为我们已经创建并选择了对话
+
+      console.log('New conversation created and selected:', conversation.id);
     } catch (error) {
       console.error('Failed to create conversation:', error);
       onError?.(error as Error);
@@ -122,6 +123,15 @@ const ConversationListWithAPI: React.FC<ConversationListWithAPIProps> = ({
       loadConversations();
     }
   }, [userId, loadConversations]);
+
+  // 自动选择第一个对话（仅在初始加载且没有活跃对话时）
+  useEffect(() => {
+    if (conversations.length > 0 && !activeConversationId) {
+      const firstConversation = conversations[0];
+      onSelectConversation(firstConversation.id);
+      console.log('Auto-selected first conversation:', firstConversation.id, 'title:', firstConversation.title);
+    }
+  }, [conversations, activeConversationId, onSelectConversation]);
 
   return (
     <div className="conversations-panel">

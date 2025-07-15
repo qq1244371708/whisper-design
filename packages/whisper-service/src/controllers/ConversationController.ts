@@ -263,7 +263,7 @@ export class ConversationController {
       }
 
       const { id: conversationId } = req.params;
-      const { content, type, files } = req.body;
+      const { content, type, files, sender } = req.body;
 
       if (!content && (!files || files.length === 0)) {
         res.status(400).json({
@@ -273,10 +273,16 @@ export class ConversationController {
         return;
       }
 
+      // 根据sender参数确定发送者类型
+      let senderType = SenderType.USER;
+      if (sender === 'ai' || type === 'ai') {
+        senderType = SenderType.ASSISTANT;
+      }
+
       const message = await this.messageService.sendMessage({
         content: content || '',
         type,
-        senderType: SenderType.USER,
+        senderType,
         conversationId,
         userId,
         senderIp: req.ip,

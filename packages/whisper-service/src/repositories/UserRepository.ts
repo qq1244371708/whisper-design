@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import { AppDataSource } from '../config/database.js';
-import { User, UserStatus } from '../entities/User.js';
+import { User, UserStatus, UserRole } from '../entities/User.js';
 
 export interface CreateUserData {
   username: string;
@@ -8,6 +8,8 @@ export interface CreateUserData {
   passwordHash: string;
   displayName?: string;
   avatar?: string;
+  role?: UserRole;
+  status?: UserStatus;
 }
 
 export interface UpdateUserData {

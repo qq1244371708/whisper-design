@@ -7,11 +7,21 @@ import { config, validateConfig } from './config/index.js';
 import { initializeDatabase } from './config/database.js';
 import userRoutes from './routes/userRoutes.js';
 import conversationRoutes from './routes/conversationRoutes.js';
+import { UserRepository } from './repositories/UserRepository.js';
+import { UserRole, UserStatus } from './entities/User.js';
+import bcrypt from 'bcrypt';
+
+// 声明全局变量类型
+declare global {
+  var demoUserId: string;
+}
 
 // 验证配置
 validateConfig();
 
 const app: Express = express();
+
+
 
 // 安全中间件
 app.use(helmet({
@@ -138,6 +148,39 @@ app.use((err: any, _req: express.Request, res: express.Response, _next: express.
   });
 });
 
+// 创建演示用户函数
+const createDemoUserIfNotExists = async () => {
+  try {
+    const userRepository = new UserRepository();
+
+    // 检查演示用户是否已存在（通过用户名查找）
+    const existingUser = await userRepository.findByUsername('demo_user');
+    if (existingUser) {
+      console.log('👤 Demo user already exists:', existingUser.id);
+      // 更新全局演示用户ID
+      global.demoUserId = existingUser.id;
+      return;
+    }
+
+    // 创建演示用户
+    const hashedPassword = await bcrypt.hash('demo123', 10);
+    const newUser = await userRepository.create({
+      username: 'demo_user',
+      email: 'demo@example.com',
+      passwordHash: hashedPassword,
+      displayName: '演示用户',
+      role: UserRole.USER,
+      status: UserStatus.ACTIVE,
+    });
+
+    // 保存演示用户ID到全局变量
+    global.demoUserId = newUser.id;
+    console.log('👤 Demo user created successfully:', newUser.id);
+  } catch (error) {
+    console.error('❌ Failed to create demo user:', error);
+  }
+};
+
 // 初始化数据库并启动服务器
 const startServer = async () => {
   try {
@@ -147,6 +190,10 @@ const startServer = async () => {
     console.log('📊 About to initialize database...');
     await initializeDatabase();
     console.log('✅ Database initialized successfully');
+
+    // 创建演示用户（如果不存在）
+    await createDemoUserIfNotExists();
+    console.log('👤 Demo user initialized');
 
     // 启动服务器
     const server = app.listen(config.server.port, config.server.host, () => {

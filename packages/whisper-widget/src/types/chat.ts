@@ -24,6 +24,8 @@ export interface IChatConfig {
 export interface SendMessageParams {
   content?: string; // 可选，因为可能只发送文件
   files?: UploadedFile[];
+  sender?: 'user' | 'ai'; // 发送者类型
+  type?: 'text' | 'image' | 'code' | 'file' | 'ai'; // 消息类型
 }
 
 export interface IUser {
