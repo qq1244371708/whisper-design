@@ -1,159 +1,265 @@
-# AI Chat Room Components
+# Whisper Design - AI Chat Platform
 
-A React component library for building AI chat room user interfaces. This library provides reusable UI components for chat functionalities, designed to be easily integrated into any React application.
+A comprehensive AI chat platform built with modern web technologies. This monorepo contains a complete chat system with UI components, BFF (Backend for Frontend) layer, and data services, designed for building scalable AI-powered chat applications.
 
-## Features
+## 🏗️ Architecture
 
--   **`AIChatRoom`**: A comprehensive component that integrates message display and input functionalities.
--   **`MessageBubble`**: Displays individual chat messages with customizable content and placement.
--   **`ChatInputArea`**: An input component for sending messages, now integrated with file upload capabilities.
--   **`FileUpload`**: Base component for uploading multiple files (images, PDF, XLSX) with card-style display.
--   **`Avatar`**: Displays user/AI avatars with customizable size and shape.
--   **`Button`**: A versatile button component with primary and secondary variants.
--   **`ChatMessagesList`**: Renders a scrollable list of chat messages.
--   **TypeScript Support**: Fully typed components for better development experience.
--   **Modular Design**: Components are designed with reusability and clear separation of concerns.
+This project follows a **3-tier monorepo architecture**:
 
-## Requirements
-
--   Node.js: `>=18.0.0`
--   React: `^19.0.0`
-
-## Installation
-
-To install the component library in your React project:
-
-```bash
-npm install ai-chat-room-components
-# or
-yarn add ai-chat-room-components
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   BFF Layer     │    │  Data Service   │
+│ (whisper-widget)│◄──►│ (whisper-core)  │◄──►│(whisper-service)│
+│                 │    │                 │    │                 │
+│ • React UI      │    │ • API Gateway   │    │ • Database      │
+│ • Components    │    │ • Data Transform│    │ • Business Logic│
+│ • State Mgmt    │    │ • Proxy Service │    │ • Authentication│
+└─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
-## Usage
+### 📦 Packages
 
-### `AIChatRoom` Component
+- **`whisper-widget`** - React UI component library with chat components
+- **`whisper-core`** - BFF layer providing API gateway and data transformation
+- **`whisper-service`** - Data service layer with database and business logic
+- **`demo`** - Demo application showcasing the complete system
 
-The primary component to quickly set up a chat interface.
+## ✨ Features
+
+### UI Components (whisper-widget)
+- **`AIChatRoomWithAPI`** - Complete chat interface with real-time API integration
+- **`ConversationListWithAPI`** - Conversation management with pagination
+- **`MessageBubble`** - Customizable message display with file support
+- **`ChatInputArea`** - Rich input with file upload capabilities
+- **`Avatar`** - User/AI avatars with multiple styles
+- **`FileUpload`** - Multi-file upload with preview
+- **TypeScript Support** - Fully typed for better DX
+- **SCSS Modules** - Modular styling system
+
+### BFF Layer (whisper-core)
+- **API Gateway** - Unified API endpoint management
+- **Data Transformation** - Format conversion between layers
+- **Proxy Service** - External service integration
+- **Rate Limiting** - Request throttling and protection
+- **Error Handling** - Centralized error management
+- **Request Logging** - Comprehensive request tracking
+
+### Data Service (whisper-service)
+- **RESTful APIs** - Complete CRUD operations
+- **Database Integration** - TypeORM with SQLite/MySQL support
+- **Authentication** - JWT-based user authentication
+- **Message Management** - Real-time message handling
+- **File Storage** - File upload and management
+- **User Management** - User profiles and preferences
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Node.js**: `>=18.0.0`
+- **pnpm**: `>=8.0.0` (recommended package manager)
+- **React**: `^19.0.0`
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/whisper-design.git
+   cd whisper-design
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   pnpm install
+   ```
+
+3. **Start all services:**
+   ```bash
+   # Terminal 1: Start data service (port 3002)
+   cd packages/whisper-service
+   pnpm dev
+
+   # Terminal 2: Start BFF service (port 3001)
+   cd packages/whisper-core
+   pnpm dev
+
+   # Terminal 3: Start demo app (port 5174)
+   cd apps/demo
+   pnpm dev
+   ```
+
+4. **Open your browser:**
+   ```
+   http://localhost:5174
+   ```
+
+## 💻 Usage
+
+### Using the Complete System
+
+The demo application shows how all three layers work together:
 
 ```typescript jsx
-import React, { useState } from 'react';
-import { AIChatRoom, IMessage, MessageSender, UploadedFile } from 'ai-chat-room-components';
-import { v4 as uuid } from 'uuid';
-import dayjs from 'dayjs';
+import React from 'react';
+import {
+  AIChatRoomWithAPI,
+  ConversationListWithAPI,
+} from '@whisper-design/widget';
 
-const MyChatApp = () => {
-  const [messages, setMessages] = useState<IMessage[]>([
-    {
-      id: '1',
-      sender: 'ai',
-      content: 'Hello! How can I help you today?',
-      timestamp: dayjs().subtract(2, 'minute').valueOf(),
-    },
-    {
-      id: '2',
-      sender: 'user',
-      content: 'I want to know about your features.',
-      timestamp: dayjs().subtract(1, 'minute').valueOf(),
-    },
-  ]);
-  const [isAITyping, setIsAITyping] = useState(false);
-
-  const handleSendMessage = async (text: string, files: UploadedFile[]) => {
-    const newUserMessage: IMessage = {
-      id: uuid(),
-      sender: 'user',
-      content: text || (files.length > 0 ? `Sent ${files.length} files.` : ''),
-      timestamp: dayjs().valueOf(),
-      // You might want to handle files more specifically here, e.g., upload them
-    };
-    setMessages((prevMessages) => [...prevMessages, newUserMessage]);
-
-    setIsAITyping(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate AI response delay
-
-    const aiResponseContent = `You said: "${text}". I also received ${files.length} files. Thinking...`;
-    const newAIMessage: IMessage = {
-      id: uuid(),
-      sender: 'ai',
-      content: aiResponseContent,
-      timestamp: dayjs().valueOf(),
-    };
-    setMessages((prevMessages) => [...prevMessages, newAIMessage]);
-    setIsAITyping(false);
-  };
+const ChatApp = () => {
+  const [activeConversationId, setActiveConversationId] = useState<string>();
+  const userId = 'demo-user-123';
 
   return (
-    <div style={{ maxWidth: '600px', height: '80vh', margin: '20px auto', display: 'flex', flexDirection: 'column', border: '1px solid #eee', borderRadius: '8px', overflow: 'hidden' }}>
-      <h2 style={{ textAlign: 'center', padding: '10px', borderBottom: '1px solid #eee' }}>AI Chat Demo</h2>
-      <AIChatRoom
-        messages={messages}
-        onSendMessage={handleSendMessage}
-        isAITyping={isAITyping}
-        config={{
-          userAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=User',
-          aiAvatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=AI',
-          theme: 'light',
-        }}
-      />
+    <div style={{ display: 'flex', height: '100vh' }}>
+      {/* Conversation List */}
+      <div style={{ width: '320px' }}>
+        <ConversationListWithAPI
+          userId={userId}
+          activeConversationId={activeConversationId}
+          onSelectConversation={setActiveConversationId}
+          onNewConversation={() => setActiveConversationId(undefined)}
+        />
+      </div>
+
+      {/* Chat Interface */}
+      <div style={{ flex: 1 }}>
+        <AIChatRoomWithAPI
+          conversationId={activeConversationId}
+          userId={userId}
+          config={{
+            userAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=User',
+            aiAvatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=AI',
+            theme: 'light',
+            aiModel: 'gpt-3.5-turbo',
+          }}
+        />
+      </div>
     </div>
   );
 };
-
-export default MyChatApp;
 ```
 
-### Individual Component Usage
-
-You can also import and use individual components:
+### Using Individual Components
 
 ```typescript jsx
-import { Avatar, MessageBubble, ChatInputArea, FileUpload } from 'ai-chat-room-components';
+import {
+  Avatar,
+  MessageBubble,
+  ChatInputArea,
+  FileUpload
+} from '@whisper-design/widget';
 
-// Example usage of Avatar
-<Avatar src="path/to/avatar.png" alt="User" size="medium" shape="circle" />
+// Avatar component
+<Avatar
+  src="https://api.dicebear.com/7.x/initials/svg?seed=User"
+  alt="User"
+  size="medium"
+  shape="circle"
+/>
 
-// Example usage of MessageBubble
-<MessageBubble id="msg1" content="Hello there!" placement="start" />
+// Message bubble
+<MessageBubble
+  id="msg1"
+  content="Hello there!"
+  sender="user"
+  timestamp={Date.now()}
+/>
 
-// Example usage of ChatInputArea (requires state management for files)
-const [files, setFiles] = useState([]);
-const handleSend = (message, uploadedFiles) => {
-  console.log('Message:', message, 'Files:', uploadedFiles);
-  setFiles([]); // Clear files after sending
-};
-<ChatInputArea onSendMessage={handleSend} onFilesChange={setFiles} value={files} />
-
-// Example usage of FileUpload
-const [uploadedFiles, setUploadedFiles] = useState([]);
-<FileUpload onFilesChange={setUploadedFiles} value={uploadedFiles} acceptedFileTypes="image/*,.pdf" maxFiles={3} />
+// Chat input with file upload
+<ChatInputArea
+  onSendMessage={(message, files) => {
+    console.log('Message:', message, 'Files:', files);
+  }}
+  placeholder="Type your message..."
+  showFileUpload={true}
+/>
 ```
 
-## Development
+## 🛠️ Development
 
-To set up the development environment:
+### Project Structure
 
-1.  **Clone the repository:**
-    ```bash
-    git clone [repository-url]
-    cd ai-chat-room-components
-    ```
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-3.  **Run the development server (demo):**
-    ```bash
-    npm run dev
-    ```
-    This will start a local development server and open the `ChatRoomDemo` page in your browser.
+```
+whisper-design/
+├── apps/
+│   └── demo/                 # Demo application
+├── packages/
+│   ├── whisper-widget/       # UI components
+│   │   ├── src/
+│   │   │   ├── components/   # React components
+│   │   │   │   ├── base/     # Base UI components
+│   │   │   │   ├── composite/# Composite components
+│   │   │   │   └── features/ # Feature components
+│   │   │   ├── services/     # API client services
+│   │   │   ├── types/        # TypeScript definitions
+│   │   │   └── utils/        # Utility functions
+│   │   └── package.json
+│   │
+│   ├── whisper-core/         # BFF layer
+│   │   ├── src/
+│   │   │   ├── api/          # API routes
+│   │   │   ├── clients/      # Data service clients
+│   │   │   ├── middleware/   # Express middleware
+│   │   │   └── services/     # Business services
+│   │   └── package.json
+│   │
+│   └── whisper-service/      # Data service
+│       ├── src/
+│       │   ├── controllers/  # API controllers
+│       │   ├── entities/     # Database entities
+│       │   ├── repositories/ # Data access
+│       │   ├── services/     # Business logic
+│       │   └── middleware/   # Service middleware
+│       └── package.json
+│
+└── shared/                   # Shared code
+    └── types/                # Shared type definitions
+```
 
-4.  **Build the library:**
-    ```bash
-    npm run build
-    ```
-    This compiles the library into the `dist` directory.
+### Development Workflow
 
-5.  **Linting:**
-    ```bash
-    npm run lint
-    ```
+1. **Start the services in order:**
+   ```bash
+   # Terminal 1: Data service
+   cd packages/whisper-service
+   pnpm dev
+
+   # Terminal 2: BFF service
+   cd packages/whisper-core
+   pnpm dev
+
+   # Terminal 3: Demo app
+   cd apps/demo
+   pnpm dev
+   ```
+
+2. **Build all packages:**
+   ```bash
+   pnpm build
+   ```
+
+3. **Run linting:**
+   ```bash
+   pnpm lint
+   ```
+
+4. **Type checking:**
+   ```bash
+   pnpm type-check
+   ```
+
+## 📝 API Documentation
+
+### Key Components
+
+- **`AIChatRoomWithAPI`**: Complete chat interface with API integration
+- **`ConversationListWithAPI`**: Conversation management component
+- **`ChatInputArea`**: Message input with file upload
+- **`MessageBubble`**: Individual message display
+
+### Key Services
+
+- **Chat Service**: Conversation and message management
+- **User Service**: User authentication and profiles
+- **File Service**: File upload and management
