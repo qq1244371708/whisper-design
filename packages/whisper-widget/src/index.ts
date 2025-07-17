@@ -1,3 +1,5 @@
+import '@/assets/css/fontawesome-free-6.6.0-web/js/all.min.js';
+
 // Base Components
 export { default as Avatar } from './components/base/Avatar/Avatar';
 export { default as Button } from './components/base/Button/Button';

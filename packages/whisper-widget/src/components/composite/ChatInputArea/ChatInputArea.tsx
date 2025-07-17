@@ -4,6 +4,7 @@ import Button from '../../base/Button/Button';
 import type { UploadedFile } from '../../base/FileUpload/interfaces';
 import { getFileIcon, formatFileSize } from '../../../utils/file';
 import './ChatInputArea.scss';
+import RecordBtn from '@/components/base/Record/Record';
 
 interface ChatInputAreaProps {
   onSendMessage: (message: string, files: UploadedFile[]) => void;
@@ -118,10 +119,20 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = ({
           <div className="input-hints">
             <i className="fas fa-lightbulb"></i> 按 Enter 发送，Shift + Enter 换行
           </div>
-          <Button type="submit" variant="primary" disabled={isSending || disabled} onClick={() => {}}>
-            <i className="fas fa-paper-plane"></i>
-            发送
-          </Button>
+
+          <div className="btn-box">
+            <RecordBtn />
+
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={isSending || disabled}
+              onClick={() => {}}
+            >
+              <i className="fas fa-paper-plane"></i>
+              发送
+            </Button>
+          </div>
         </div>
       </div>
     </form>

@@ -12,8 +12,6 @@ import {
 import '@whisper-design/widget/styles';
 
 const ChatRoomDemo: React.FC = () => {
-  console.log('[ demo ]');
-
   const [conversations, setConversations] = useImmer<IConversation[]>([]);
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
   const [isAITyping, setIsAITyping] = useState(false);
@@ -109,7 +107,6 @@ const ChatRoomDemo: React.FC = () => {
           width: '305px',
           minWidth: '300px',
           height: '100vh',
-          backgroundColor: '#f8f9fa',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',

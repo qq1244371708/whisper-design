@@ -69,6 +69,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    .btn-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
   }
 
   .input-hints {
